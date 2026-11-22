@@ -114,7 +114,8 @@ const langHref = url(alternates ? alternates[otherLang] : t.ui.langSwitch.href);
       font-size: 0.78rem;
       letter-spacing: 0.12em;
     }
-    .lang:hover { background: var(--ink); color: #fff; }
+    /* .nav .lang: must beat `.nav a` (which sets the ink text colour) */
+    .nav .lang:hover, .nav .lang:focus-visible { background: var(--ink); color: #fff; }
     .lang-long { display: none; }
   }
 

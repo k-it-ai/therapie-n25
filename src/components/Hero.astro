@@ -164,10 +164,19 @@ const firstTall = slides.findIndex((s) => s.set === 'tall');
   .pause.is-paused .i-play { display: block; }
   .pause.is-paused .i-pause { display: none; }
 
-  /* Mobile: image on top, info band below it (as in the mockup) */
+  /* Mobile: image on top, info band below it (as in the mockup).
+     Together they fill the visible screen exactly: svh = height with the browser bars shown,
+     so the band ends above Safari's bottom bar. */
   @media (max-width: 699px) {
-    .hero { height: auto; min-height: 0; max-height: none; display: flex; flex-direction: column; }
-    .slides { position: relative; inset: auto; height: 64svh; min-height: 380px; }
+    .hero {
+      height: calc(100vh - var(--header-h));
+      height: calc(100svh - var(--header-h));
+      min-height: 480px;
+      max-height: none;
+      display: flex;
+      flex-direction: column;
+    }
+    .slides { position: relative; inset: auto; flex: 1; min-height: 0; }
     .hero-info { position: relative; backdrop-filter: none; background: var(--apricot-300); font-size: 0.78rem; }
   }
 </style>
