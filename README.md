@@ -33,7 +33,6 @@ Replace the old files. No server-side software is needed.
 
 ### Placeholders still to fill
 - **Team photo** – `src/components/Team.astro` (`.team-photo`): replace the placeholder with a `<Picture>`.
-- **Kinder-Therapieraum photos** – add photo keys to the `kinderraum` entry in `content.ts`.
 - **Impressum** – "Webdesign & Entwicklung" name.
 
 ## Notes

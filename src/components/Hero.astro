@@ -8,11 +8,14 @@ const { lang } = Astro.props;
 const t = content[lang];
 
 // Wide screens show landscape photos, phones show portrait photos.
-const slides: { key: PhotoKey; set: 'wide' | 'tall' }[] = [
+// `position` overrides the photo's default crop for this slide.
+const slides: { key: PhotoKey; set: 'wide' | 'tall'; position?: string }[] = [
+  { key: 'fassade', set: 'wide', position: '50% 9%' },
   { key: 'empfang', set: 'wide' },
   { key: 'therapieraum-bunt', set: 'wide' },
   { key: 'trainingsraum', set: 'wide' },
   { key: 'empfang-flur', set: 'wide' },
+  { key: 'fassade', set: 'tall', position: '50% 30%' },
   { key: 'therapieraum-hell', set: 'tall' },
   { key: 'therapieraum-erker', set: 'tall' },
   { key: 'wartebereich', set: 'tall' },
@@ -22,7 +25,7 @@ const firstTall = slides.findIndex((s) => s.set === 'tall');
 ---
 <section class="hero" id="top" aria-roledescription="carousel" aria-label={t.hero.srTitle} data-carousel>
   <div class="slides" data-parallax-hero>
-    {slides.map(({ key, set }, i) => {
+    {slides.map(({ key, set, position }, i) => {
       const first = i === 0 || i === firstTall;
       return (
         <div class={`slide slide--${set}`} data-slide>
@@ -34,7 +37,7 @@ const firstTall = slides.findIndex((s) => s.set === 'tall');
             formats={['avif', 'webp']}
             loading={first ? 'eager' : 'lazy'}
             fetchpriority={first ? 'high' : 'auto'}
-            style={`object-position:${'position' in photos[key] ? photos[key].position : '50% 50%'}`}
+            style={`object-position:${position ?? ('position' in photos[key] ? photos[key].position : '50% 50%')}`}
           />
         </div>
       );

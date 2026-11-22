@@ -11,10 +11,18 @@ import therapieraumHell from '../assets/photos/therapieraum-hell.jpg';
 import therapieraumBunt from '../assets/photos/therapieraum-bunt.jpg';
 import trainingsraum from '../assets/photos/trainingsraum.jpg';
 import gyrotonic from '../assets/photos/gyrotonic.jpg';
+import fassade from '../assets/photos/fassade.jpg';
 
 type Photo = { src: ImageMetadata; alt: Record<Lang, string>; position?: string };
 
 export const photos = {
+  fassade: {
+    src: fassade,
+    alt: {
+      de: 'Jugendstil-Fassade des Hauses Nymphenburger Straße 191 aus dem Jahr 1906',
+      en: 'Art Nouveau façade of Nymphenburger Straße 191, built in 1906',
+    },
+  },
   'empfang-flur': {
     src: empfangFlur,
     alt: { de: 'Heller Altbauflur mit Parkett und Blick in die Praxis', en: 'Bright period hallway with parquet leading into the practice' },
@@ -48,7 +56,7 @@ export const photos = {
   },
   'therapieraum-bunt': {
     src: therapieraumBunt,
-    alt: { de: 'Therapieraum mit Liege und farbenfrohem Gemälde', en: 'Treatment room with table and a colourful painting' },
+    alt: { de: 'Kinder-Therapieraum mit Liege, Hocker und farbenfrohem Gemälde', en: 'Children’s treatment room with table, stool and a colourful painting' },
   },
   trainingsraum: {
     src: trainingsraum,

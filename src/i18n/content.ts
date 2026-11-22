@@ -284,14 +284,14 @@ export const content = {
           title: 'Therapieräume 1–7',
           text: 'Sieben helle, ruhige Behandlungsräume mit hohen Decken, großen Fenstern und Parkett. Hier finden die Einzelbehandlungen statt – Physiotherapie, Manuelle Therapie, Lymphdrainage und Osteopathie – in einem geschützten Rahmen, ganz ohne Hektik.',
           features: ['höhenverstellbare Therapieliegen', 'Einzelräume mit Tageslicht', 'Physiotherapie, Lymphdrainage, Osteopathie'],
-          photos: ['therapieraum-erker', 'therapieraum-rot', 'therapieraum-bunt'],
+          photos: ['therapieraum-erker', 'therapieraum-rot', 'therapieraum-hell'],
         },
         {
           id: 'kinderraum',
           title: 'Kinder-Therapieraum',
           text: 'Ein eigener Raum für unsere jüngsten Patientinnen und Patienten: für Osteopathie bei Säuglingen und Kindern, Entwicklungskinesiologie nach Vojta und Manuelle Therapie für Kinder. Mit Platz für Eltern und einer Atmosphäre, in der sich Kinder wohlfühlen.',
           features: ['Osteopathie für Säuglinge und Kinder', 'Vojta-Therapie', 'Platz für Eltern'],
-          photos: [],
+          photos: ['therapieraum-bunt'],
         },
         {
           id: 'trainingsraum',
@@ -605,14 +605,14 @@ export const content = {
           title: 'Treatment rooms 1–7',
           text: 'Seven bright, quiet treatment rooms with high ceilings, large windows and parquet floors. This is where one-to-one treatments take place – physiotherapy, manual therapy, lymphatic drainage and osteopathy – in a private, unhurried setting.',
           features: ['Height-adjustable treatment tables', 'Private rooms with daylight', 'Physiotherapy, lymphatic drainage, osteopathy'],
-          photos: ['therapieraum-erker', 'therapieraum-rot', 'therapieraum-bunt'],
+          photos: ['therapieraum-erker', 'therapieraum-rot', 'therapieraum-hell'],
         },
         {
           id: 'kinderraum',
           title: 'Children’s treatment room',
           text: 'A room of its own for our youngest patients: for osteopathy for babies and children, developmental kinesiology (Vojta) and manual therapy for children. With space for parents and an atmosphere where children feel at ease.',
           features: ['Osteopathy for babies and children', 'Vojta therapy', 'Space for parents'],
-          photos: [],
+          photos: ['therapieraum-bunt'],
         },
         {
           id: 'trainingsraum',
