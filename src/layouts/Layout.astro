@@ -1,0 +1,88 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { content, practice, type Lang } from '../i18n/content';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  /** home = one-pager; on other pages nav links point back to the home page */
+  home?: boolean;
+  /** path of the same page in the other language, for hreflang */
+  alternates?: { de: string; en: string };
+  noindex?: boolean;
+}
+
+const { lang, title, description, home = false, alternates, noindex = false } = Astro.props;
+const t = content[lang];
+const site = Astro.site!;
+const canonical = new URL(Astro.url.pathname, site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': ['MedicalBusiness', 'Physiotherapy'],
+  name: practice.name,
+  description: content.de.meta.description,
+  url: site.href,
+  telephone: '+49 89 20062038',
+  faxNumber: '+49 89 20062039',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: practice.street,
+    postalCode: practice.zip,
+    addressLocality: practice.city,
+    addressCountry: 'DE',
+  },
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'], opens: '08:00', closes: '19:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Friday', opens: '08:00', closes: '15:00' },
+  ],
+};
+---
+<!doctype html>
+<html lang={t.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title ?? t.meta.title}</title>
+    <meta name="description" content={description ?? t.meta.description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {alternates && (
+      <>
+        <link rel="alternate" hreflang="de" href={new URL(alternates.de, site).href} />
+        <link rel="alternate" hreflang="en" href={new URL(alternates.en, site).href} />
+        <link rel="alternate" hreflang="x-default" href={new URL(alternates.de, site).href} />
+      </>
+    )}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#edbc8f" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title ?? t.meta.title} />
+    <meta property="og:description" content={description ?? t.meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/og-image.jpg', site).href} />
+    <meta property="og:locale" content={lang === 'de' ? 'de_DE' : 'en_GB'} />
+    {home && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.ui.skip}</a>
+    <Header lang={lang} home={home} alternates={alternates} />
+    <main id="main">
+      <slot name="hero" />
+      <div class="page">
+        {home && <div class="spine" aria-hidden="true" data-spine></div>}
+        <slot />
+      </div>
+    </main>
+    <Footer lang={lang} home={home} />
+    <slot name="after" />
+    <script>
+      import '../scripts/main.ts';
+    </script>
+  </body>
+</html>

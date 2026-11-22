@@ -1,0 +1,179 @@
+---
+import Wordmark from '../assets/n25-wordmark.svg';
+import { content, type Lang } from '../i18n/content';
+
+interface Props { lang: Lang; home: boolean; alternates?: { de: string; en: string } }
+const { lang, home, alternates } = Astro.props;
+const t = content[lang];
+const base = lang === 'de' ? '/' : '/en/';
+const href = (id: string) => (home ? `#${id}` : `${base}#${id}`);
+const otherLang = lang === 'de' ? 'en' : 'de';
+const langHref = alternates ? alternates[otherLang] : t.ui.langSwitch.href;
+---
+<header class="site-header" data-header>
+  <div class="bar">
+    <a class="brand" href={home ? '#top' : base} aria-label="Therapie N25 – Start">
+      <Wordmark class="brand-mark" aria-hidden="true" />
+    </a>
+
+    <nav class="nav" id="site-nav" aria-label={lang === 'de' ? 'Hauptmenü' : 'Main menu'} data-nav>
+      <ul class="nav-list">
+        {t.nav.map((item, i) => (
+          <li style={`--i:${i}`}>
+            <a href={href(item.id)} data-nav-link={item.id}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+      <a class="lang" href={langHref} hreflang={otherLang} lang={otherLang} data-lang-link
+         style={`--i:${t.nav.length}`}>
+        <span class="lang-long">{t.ui.langSwitch.label}</span>
+        <span class="lang-short" aria-hidden="true">{t.ui.langSwitch.short}</span>
+      </a>
+    </nav>
+
+    <button class="burger" type="button" aria-controls="site-nav" aria-expanded="false"
+            data-burger data-label-open={t.ui.menuOpen} data-label-close={t.ui.menuClose}>
+      <span class="sr-only" data-burger-label>{t.ui.menuOpen}</span>
+      <span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: color-mix(in srgb, var(--apricot-300) 94%, transparent);
+    backdrop-filter: saturate(1.2) blur(10px);
+    -webkit-backdrop-filter: saturate(1.2) blur(10px);
+    transition: box-shadow 0.4s var(--ease);
+  }
+  .site-header.is-scrolled { box-shadow: 0 1px 0 rgba(46, 74, 95, 0.08), 0 8px 30px -18px rgba(46, 74, 95, 0.35); }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    height: var(--header-h);
+    width: min(100% - 2 * var(--gutter), 1320px);
+    margin-inline: auto;
+    transition: height 0.4s var(--ease);
+  }
+  .is-scrolled .bar { height: calc(var(--header-h) - 12px); }
+
+  .brand { display: block; color: #fff; line-height: 0; position: relative; z-index: 2; }
+  .brand-mark { height: 34px; width: auto; transition: height 0.4s var(--ease); }
+  .is-scrolled .brand-mark { height: 28px; }
+  @media (max-width: 899px) { .brand-mark { height: 30px; } }
+
+  .nav-list { list-style: none; display: flex; }
+  .nav a {
+    text-decoration: none;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.86rem;
+    font-weight: 430;
+  }
+
+  /* ---- Desktop: one line, logo left, menu right ---- */
+  @media (min-width: 900px) {
+    .burger { display: none; }
+    .nav { display: flex; align-items: center; gap: clamp(1.25rem, 2.6vw, 2.5rem); }
+    .nav-list { gap: clamp(1.1rem, 2.4vw, 2.4rem); }
+    .nav-list a {
+      position: relative;
+      padding: 0.4rem 0;
+    }
+    .nav-list a::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0.14em; bottom: 0;
+      height: 1px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s var(--ease);
+    }
+    .nav-list a:hover::after,
+    .nav-list a[aria-current='true']::after { transform: scaleX(1); }
+    .lang {
+      padding: 0.3rem 0.55rem;
+      border: 1px solid color-mix(in srgb, var(--ink) 45%, transparent);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+    }
+    .lang:hover { background: var(--ink); color: #fff; }
+    .lang-long { display: none; }
+  }
+
+  /* ---- Mobile & small tablet: overlay menu ---- */
+  @media (max-width: 899px) {
+    .burger {
+      position: relative;
+      z-index: 2;
+      width: 44px; height: 44px;
+      margin-right: -10px;
+      display: grid;
+      place-items: center;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      color: #fff;
+    }
+    .burger-lines { position: relative; width: 26px; height: 18px; }
+    .burger-lines span {
+      position: absolute; left: 0;
+      width: 100%; height: 2px;
+      background: currentColor;
+      border-radius: 2px;
+      transition: transform 0.4s var(--ease), opacity 0.3s var(--ease), top 0.4s var(--ease);
+    }
+    .burger-lines span:nth-child(1) { top: 0; }
+    .burger-lines span:nth-child(2) { top: 8px; }
+    .burger-lines span:nth-child(3) { top: 16px; }
+    [aria-expanded='true'] .burger-lines span:nth-child(1) { top: 8px; transform: rotate(45deg); }
+    [aria-expanded='true'] .burger-lines span:nth-child(2) { opacity: 0; }
+    [aria-expanded='true'] .burger-lines span:nth-child(3) { top: 8px; transform: rotate(-45deg); }
+
+    .nav {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: var(--header-h) 1.5rem 3rem;
+      background: color-mix(in srgb, var(--apricot-300) 90%, transparent);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.45s var(--ease), visibility 0s linear 0.45s;
+    }
+    .nav.is-open {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 0.45s var(--ease), visibility 0s;
+    }
+    .nav-list { flex-direction: column; align-items: center; gap: 1.1rem; }
+    .nav-list a, .lang { display: block; font-size: 1.15rem; padding: 0.35rem 0.5rem; }
+    .lang { font-size: 0.95rem; border-top: 1px solid color-mix(in srgb, var(--ink) 30%, transparent); padding-top: 1.5rem; }
+    .lang-short { display: none; }
+
+    .nav li, .lang {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+    }
+    .nav.is-open li, .nav.is-open .lang {
+      opacity: 1;
+      transform: none;
+      transition-delay: calc(0.08s + var(--i) * 0.05s);
+    }
+  }
+</style>

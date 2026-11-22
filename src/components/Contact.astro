@@ -1,0 +1,159 @@
+---
+import SectionHead from './SectionHead.astro';
+import { content, practice, type Lang } from '../i18n/content';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = content[lang];
+const c = t.contact;
+const q = encodeURIComponent(practice.mapsQuery);
+const links = {
+  google: `https://www.google.com/maps/dir/?api=1&destination=${q}`,
+  apple: `https://maps.apple.com/?daddr=${q}`,
+  osm: `https://www.openstreetmap.org/search?query=${encodeURIComponent(`${practice.street}, ${practice.zip} ${practice.city}`)}`,
+  geo: `geo:0,0?q=${q}`,
+};
+const embed = `https://www.google.com/maps?q=${q}&z=16&output=embed&hl=${lang}`;
+---
+<section class="section contact" id="anfahrt" aria-labelledby="anfahrt-title">
+  <div class="wrap">
+    <SectionHead id="anfahrt" title={c.heading} tagline={c.tagline} />
+
+    <div class="split contact-grid">
+      <div class="info reveal">
+        <div class="group">
+          <h3 class="block-title">{c.addressHeading}</h3>
+          <address>
+            {practice.name}<br />
+            {practice.street}<br />
+            {practice.zip} {practice.city}
+          </address>
+          <p class="phone">
+            <span class="k">{c.phoneLabel}</span>
+            <a href={practice.phoneHref}>{practice.phone}</a><br />
+            <span class="k">{c.faxLabel}</span>
+            <span>{practice.fax}</span>
+          </p>
+        </div>
+
+        <div class="group">
+          <h3 class="block-title">{c.hoursHeading}</h3>
+          <dl class="hours">
+            {c.hours.map((h) => (<><dt>{h.days}</dt><dd>{h.time}</dd></>))}
+          </dl>
+          <p class="note">{c.hoursNote}</p>
+        </div>
+
+        <div class="group">
+          <h3 class="block-title">{c.transitHeading}</h3>
+          <ul class="transit">
+            {c.transit.map((tr) => (
+              <li>
+                <span class={`badge ${tr.line.startsWith('U') ? 'badge-u' : 'badge-tram'}`}>{tr.line}</span>
+                <span>{tr.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="route">
+          <a class="btn" href={links.google} data-route
+             data-apple={links.apple} data-geo={links.geo} target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c-3.9 0-7 3-7 6.9 0 5.1 7 12.1 7 12.1s7-7 7-12.1c0-3.9-3.1-6.9-7-6.9z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9.5" r="2.4" fill="currentColor"/></svg>
+            {c.route}
+          </a>
+          <p class="others">
+            {c.routeOthers}
+            <a href={links.apple} target="_blank" rel="noopener">Apple Maps</a>
+            <a href={links.google} target="_blank" rel="noopener">Google Maps</a>
+            <a href={links.osm} target="_blank" rel="noopener">OpenStreetMap</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="map reveal" data-map data-src={embed} data-title={c.map.iframeTitle}>
+        <div class="map-consent">
+          <svg class="map-art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+            <rect width="400" height="300" fill="#fcf3ea"/>
+            <g stroke="#f7e4d1" stroke-width="14" fill="none" stroke-linecap="round">
+              <path d="M-20 118 L420 68"/>
+              <path d="M140 -20 L190 320"/>
+              <path d="M300 -20 L260 320"/>
+              <path d="M-20 60 L180 40"/>
+              <path d="M30 320 L110 150"/>
+            </g>
+            <g stroke="#edbc8f" stroke-width="3" fill="none">
+              <path d="M-20 118 L420 68"/>
+            </g>
+            <circle cx="182" cy="96" r="30" fill="#e9ac74" opacity="0.18"/>
+            <path d="M182 56c-12 0-21 9-21 20.5 0 15 21 34.5 21 34.5s21-19.5 21-34.5c0-11.5-9-20.5-21-20.5z" fill="#2e4a5f"/>
+            <circle cx="182" cy="76" r="7" fill="#fcf3ea"/>
+          </svg>
+          <div class="consent-box">
+            <p class="consent-title">{practice.street}, {practice.zip} {practice.city}</p>
+            <p class="consent-text">{c.map.text} <a href={t.footer.privacyHref + '#google-maps'}>{c.map.privacyLink}</a>.</p>
+            <button type="button" class="btn btn--ghost" data-map-load>{c.map.load}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-grid { align-items: stretch; }
+  .info { max-width: 30rem; justify-self: end; width: 100%; }
+  @media (max-width: 899px) { .info { justify-self: start; max-width: none; } }
+  .group { margin-bottom: 2.25rem; }
+  .group .block-title { font-size: 0.95rem; margin-bottom: 0.6rem; }
+  address { font-style: normal; color: var(--ink); font-size: 1.1rem; line-height: 1.6; margin-bottom: 0.6rem; }
+  .phone { margin: 0; }
+  .k { display: inline-block; min-width: 5.5rem; color: var(--text-soft); }
+  .phone a { color: var(--ink); font-size: 1.1rem; text-decoration-color: var(--apricot-400); text-underline-offset: 4px; }
+
+  .hours { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 1.5rem; margin: 0 0 0.4rem; color: var(--ink); }
+  .hours dd { margin: 0; }
+  .note { color: var(--text-soft); font-size: 0.95rem; margin: 0; }
+
+  .transit { list-style: none; display: grid; gap: 0.6rem; }
+  .transit li { display: flex; align-items: center; gap: 0.8rem; }
+  .badge {
+    flex: none;
+    min-width: 2.6rem;
+    padding: 0.1rem 0.5rem;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.03em;
+    border-radius: 3px;
+  }
+  .badge-u { background: #3c7233; }
+  .badge-tram { background: #c4161c; }
+
+  .route { margin-top: 0.5rem; }
+  .others { margin: 1rem 0 0; font-size: 0.9rem; color: var(--text-soft); display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; }
+  .others a { color: var(--ink); text-underline-offset: 3px; text-decoration-color: var(--apricot-400); }
+
+  .map {
+    position: relative;
+    min-height: 460px;
+    background: var(--apricot-50);
+    overflow: hidden;
+  }
+  .map :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .map-consent { position: absolute; inset: 0; display: grid; place-items: end center; }
+  .map-art { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .consent-box {
+    position: relative;
+    margin: 1.25rem;
+    padding: 1.25rem 1.4rem;
+    background: color-mix(in srgb, var(--paper) 94%, transparent);
+    max-width: 26rem;
+    text-align: center;
+    box-shadow: 0 18px 40px -26px rgba(46, 74, 95, 0.45);
+  }
+  .consent-title { color: var(--ink); margin-bottom: 0.4rem; }
+  .consent-text { font-size: 0.85rem; line-height: 1.5; color: var(--text-soft); }
+  .consent-text a { color: var(--ink); }
+</style>

@@ -1,0 +1,140 @@
+---
+import SectionHead from './SectionHead.astro';
+import Chevron from './Chevron.astro';
+import { content, type Lang } from '../i18n/content';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = content[lang];
+const team = t.team;
+---
+<section class="section team" id="team" aria-labelledby="team-title">
+  <div class="wrap">
+    <SectionHead id="team" title={team.heading} tagline={team.tagline} />
+
+    <figure class="team-photo reveal" data-placeholder="team-photo">
+      <div class="placeholder">
+        <svg viewBox="0 0 64 40" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="1.4">
+            <circle cx="16" cy="13" r="6"/><path d="M5 36c1.5-8 6-11 11-11s9.5 3 11 11"/>
+            <circle cx="32" cy="11" r="6.5"/><path d="M20 36c1.6-9 6.5-12.5 12-12.5S42.4 27 44 36"/>
+            <circle cx="48" cy="13" r="6"/><path d="M37 36c1.5-8 6-11 11-11s9.5 3 11 11"/>
+          </g>
+        </svg>
+        <span>{t.ui.teamPhotoFollows}</span>
+      </div>
+    </figure>
+
+    <div class="reception reveal">
+      <h3 class="block-title">{team.receptionHeading}</h3>
+      <ul>
+        {team.reception.map((n) => <li>{n}</li>)}
+      </ul>
+    </div>
+
+    <h3 class="block-title therapists-heading reveal">{team.therapistsHeading}</h3>
+    <ul class="therapists">
+      {team.therapists.map((p) => (
+        <li class="person reveal">
+          <h4 class="name">{p.name}</h4>
+          <p class="role">{p.role}</p>
+          <details class="more">
+            <summary>
+              <span>{t.ui.showQualifications}</span>
+              <Chevron />
+            </summary>
+            <ul class="dot-list quals">
+              {p.quals.map((q) => <li>{q}</li>)}
+            </ul>
+          </details>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .team-photo {
+    margin: 0 auto clamp(3.5rem, 8vw, 5.5rem);
+    max-width: 980px;
+    aspect-ratio: 21 / 9;
+    position: relative;
+    z-index: 1;
+  }
+  .placeholder {
+    height: 100%;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 0.9rem;
+    background:
+      repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--apricot-300) 18%, transparent) 14px 15px),
+      var(--apricot-50);
+    border: 1px dashed var(--apricot-300);
+    color: var(--apricot-400);
+    text-align: center;
+    padding: 1rem;
+  }
+  .placeholder svg { width: clamp(64px, 10vw, 110px); }
+  .placeholder span { color: var(--text-soft); font-style: italic; }
+  @media (max-width: 599px) { .team-photo { aspect-ratio: 4 / 3; } }
+
+  .reception {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    background: var(--paper);
+    padding: 1rem;
+    max-width: 44rem;
+    margin: 0 auto clamp(3.5rem, 8vw, 5.5rem);
+  }
+  .reception ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 2.5rem;
+    margin-top: 1rem;
+    color: var(--ink);
+    font-size: 1.1rem;
+  }
+  .therapists-heading {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    background: var(--paper);
+    width: fit-content;
+    margin: 0 auto clamp(2rem, 5vw, 3rem);
+    padding: 0.5rem 1rem;
+  }
+
+  .therapists {
+    list-style: none;
+    display: grid;
+    gap: 0;
+  }
+  @media (min-width: 900px) {
+    .therapists { grid-template-columns: 1fr 1fr; column-gap: var(--col-gap); }
+    .person:nth-child(odd) { text-align: right; }
+    .person:nth-child(odd) .quals { text-align: left; }
+    .person:nth-child(odd) .more { display: flex; flex-direction: column; align-items: flex-end; }
+  }
+  .person {
+    padding: 1.6rem 0;
+    border-top: 1px solid var(--apricot-100);
+  }
+  .name {
+    margin: 0;
+    color: var(--ink);
+    font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
+    font-weight: 450;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .role { margin: 0.2rem 0 0.6rem; color: var(--text-soft); font-style: italic; }
+  .quals {
+    padding: 0.75rem 0 0.25rem;
+    font-size: 0.97rem;
+    max-width: 30rem;
+  }
+</style>

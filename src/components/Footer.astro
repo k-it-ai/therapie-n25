@@ -1,0 +1,54 @@
+---
+import Wordmark from '../assets/n25-wordmark.svg';
+import { content, practice, type Lang } from '../i18n/content';
+
+interface Props { lang: Lang; home: boolean }
+const { lang, home } = Astro.props;
+const t = content[lang];
+const base = lang === 'de' ? '/' : '/en/';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="inner">
+    <a class="mark" href={home ? '#top' : base} aria-label={t.ui.backToTop}>
+      <Wordmark aria-hidden="true" />
+    </a>
+    <p class="services">{t.footer.services}</p>
+    <address>
+      <span>{practice.street.toUpperCase()}</span><span class="sep" aria-hidden="true">|</span><span>{practice.zip} {practice.city.toUpperCase()}</span>
+      <br />
+      <a href={practice.phoneHref}>TEL. {practice.phone}</a>
+    </address>
+    <nav class="legal-links" aria-label={lang === 'de' ? 'Rechtliches' : 'Legal'}>
+      <a href={t.footer.privacyHref}>{t.footer.privacy}</a><span class="sep" aria-hidden="true">|</span><a href={t.footer.imprintHref}>{t.footer.imprint}</a>
+    </nav>
+    <p class="copy">{t.footer.copyright} © {practice.since} – {year} {practice.name}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative;
+    z-index: 1;
+    background: var(--apricot-300);
+    color: var(--ink);
+    text-align: center;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    line-height: 2.1;
+  }
+  .inner { padding: 3.5rem var(--gutter) 3rem; }
+  .mark { display: inline-block; color: #fff; margin-bottom: 1.5rem; }
+  .mark :global(svg) { height: 30px; width: auto; }
+  .services { text-transform: uppercase; margin: 0; }
+  address { font-style: normal; text-transform: uppercase; }
+  a { text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .legal-links { text-transform: uppercase; margin-top: 0.4rem; }
+  .sep { display: inline-block; margin: 0 0.6rem; opacity: 0.6; }
+  .copy { margin: 0.4rem 0 0; }
+  @media (max-width: 420px) {
+    address .sep { display: none; }
+    address span { display: block; }
+  }
+</style>

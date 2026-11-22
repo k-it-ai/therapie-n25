@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from './Hero.astro';
+import Services from './Services.astro';
+import Team from './Team.astro';
+import About from './About.astro';
+import Rooms from './Rooms.astro';
+import Contact from './Contact.astro';
+import CallButton from './CallButton.astro';
+import type { Lang } from '../i18n/content';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<Layout lang={lang} home alternates={{ de: '/', en: '/en/' }}>
+  <Hero lang={lang} slot="hero" />
+  <Services lang={lang} />
+  <Team lang={lang} />
+  <About lang={lang} />
+  <Rooms lang={lang} />
+  <Contact lang={lang} />
+  <CallButton lang={lang} slot="after" />
+</Layout>

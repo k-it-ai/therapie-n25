@@ -1,0 +1,81 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { practice } from '../../i18n/content';
+const year = new Date().getFullYear();
+---
+<Layout lang="de" title="Impressum – Therapie N25" description="Impressum der Praxis Therapie N25, Nymphenburger Straße 191, 80639 München.">
+  <article class="legal">
+    <h1>Impressum</h1>
+
+    <h2>Angaben gemäß § 5 DDG</h2>
+    <address>
+      Therapie N25<br />
+      Inhaberin: Monika Vogl<br />
+      {practice.street}<br />
+      {practice.zip} {practice.city}
+    </address>
+
+    <h2>Kontakt</h2>
+    <p>
+      Telefon: <a href={practice.phoneHref}>{practice.phone}</a><br />
+      Fax: {practice.fax}<br />
+      Internet: www.therapie-n25.de
+    </p>
+
+    <h2>Bildnachweis</h2>
+    <p>Kurt Vogl, Lorenz Bühler</p>
+
+    <h2>Webdesign &amp; Entwicklung</h2>
+    <p>[Name / Agentur eintragen]</p>
+
+    <p>Copyright © {practice.since} – {year} Therapie N25 München. Alle Rechte vorbehalten.</p>
+
+    <h2>Haftungsausschluss</h2>
+
+    <h3>1. Inhalt des Onlineangebotes</h3>
+    <p>
+      Der Herausgeber übernimmt keinerlei Gewähr für die Aktualität, Korrektheit, Vollständigkeit oder Qualität der
+      bereitgestellten Informationen. Haftungsansprüche gegen den Herausgeber, welche sich auf Schäden materieller oder
+      ideeller Art beziehen, die durch die Nutzung oder Nichtnutzung der dargebotenen Informationen bzw. durch die
+      Nutzung fehlerhafter und unvollständiger Informationen verursacht wurden, sind grundsätzlich ausgeschlossen. Alle
+      Angebote sind freibleibend und unverbindlich. Der Herausgeber behält es sich ausdrücklich vor, Teile der Seiten
+      oder das gesamte Angebot ohne gesonderte Ankündigung zu verändern, zu ergänzen, zu löschen oder die
+      Veröffentlichung zeitweise oder endgültig einzustellen.
+    </p>
+
+    <h3>2. Verweise und Links</h3>
+    <p>
+      Diese Website enthält Links zu externen Websites Dritter (z. B. Google Maps, Apple Karten, OpenStreetMap und
+      Verband der Osteopathen Deutschland e.V.), auf deren Inhalte der Herausgeber keinen Einfluss hat. Für die Inhalte
+      der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber verantwortlich. Zum Zeitpunkt der
+      Verlinkung waren keine Rechtsverstöße erkennbar. Bei Bekanntwerden von Rechtsverletzungen werden derartige Links
+      umgehend entfernt.
+    </p>
+
+    <h3>3. Urheber- und Kennzeichenrecht</h3>
+    <p>
+      Der Herausgeber ist bestrebt, die Urheberrechte der verwendeten Texte, Bilder und Animationssequenzen zu beachten
+      bzw. von ihm selbst erstellte Texte, Bilder und Grafiken zu nutzen. Alle innerhalb des Internetangebotes genannten
+      und ggf. durch Dritte geschützten Marken- und Warenzeichen unterliegen uneingeschränkt den Bestimmungen des
+      jeweils gültigen Kennzeichenrechts und den Besitzrechten der jeweiligen eingetragenen Eigentümer. Eine
+      Vervielfältigung oder Verwendung der gesamten Inhalte in anderen elektronischen oder gedruckten Publikationen ist
+      ohne ausdrückliche Zustimmung des Herausgebers nicht gestattet.
+    </p>
+
+    <h3>4. Datenschutz</h3>
+    <p>
+      Innerhalb des Internetangebotes gibt es keine Möglichkeit zur Eingabe persönlicher oder geschäftlicher Daten
+      (E-Mail-Adressen, Namen, Anschriften). Die Kontaktaufnahme mit Therapie N25 erfolgt ausschließlich über
+      telefonischen Anruf, per Fax oder per Postversand. Weitere Informationen finden Sie in unserer
+      <a href="/datenschutz/">Datenschutzerklärung</a>.
+    </p>
+
+    <h3>5. Rechtswirksamkeit dieses Haftungsausschlusses</h3>
+    <p>
+      Dieser Haftungsausschluss ist als Teil des Internetangebotes zu betrachten, von dem aus auf diese Seite verwiesen
+      wurde. Sofern Teile oder einzelne Formulierungen dieses Textes der geltenden Rechtslage nicht, nicht mehr oder
+      nicht vollständig entsprechen sollten, bleiben die übrigen Teile des Dokumentes in ihrem Inhalt und ihrer
+      Gültigkeit davon unberührt.
+    </p>
+  </article>
+</Layout>

@@ -1,0 +1,259 @@
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- Header: compact state after scrolling ---------- */
+const header = document.querySelector<HTMLElement>('[data-header]');
+const callBtn = document.querySelector<HTMLElement>('[data-call]');
+const hero = document.querySelector<HTMLElement>('[data-carousel]');
+
+/* ---------- Mobile menu ---------- */
+const burger = document.querySelector<HTMLButtonElement>('[data-burger]');
+const nav = document.querySelector<HTMLElement>('[data-nav]');
+const burgerLabel = document.querySelector<HTMLElement>('[data-burger-label]');
+
+function setMenu(open: boolean) {
+  if (!burger || !nav) return;
+  burger.setAttribute('aria-expanded', String(open));
+  nav.classList.toggle('is-open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+  if (burgerLabel) burgerLabel.textContent = (open ? burger.dataset.labelClose : burger.dataset.labelOpen) ?? '';
+  if (open) nav.querySelector<HTMLElement>('a')?.focus({ preventScroll: true });
+}
+burger?.addEventListener('click', () => setMenu(burger.getAttribute('aria-expanded') !== 'true'));
+nav?.addEventListener('click', (e) => {
+  if ((e.target as HTMLElement).closest('a')) setMenu(false);
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && burger?.getAttribute('aria-expanded') === 'true') {
+    setMenu(false);
+    burger.focus();
+  }
+});
+window.matchMedia('(min-width: 900px)').addEventListener('change', (e) => e.matches && setMenu(false));
+
+/* Keep the current section when switching language */
+document.querySelector<HTMLAnchorElement>('[data-lang-link]')?.addEventListener('click', (e) => {
+  const link = e.currentTarget as HTMLAnchorElement;
+  const active = document.querySelector<HTMLAnchorElement>('[data-nav-link][aria-current="true"]');
+  if (active && hero) {
+    e.preventDefault();
+    window.location.href = link.pathname + '#' + active.dataset.navLink;
+  }
+});
+
+/* ---------- Active nav item ---------- */
+const navLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')];
+const sections = navLinks
+  .map((a) => document.getElementById(a.dataset.navLink!))
+  .filter((el): el is HTMLElement => !!el);
+if (sections.length) {
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        navLinks.forEach((a) => a.setAttribute('aria-current', String(a.dataset.navLink === entry.target.id)));
+      }
+    },
+    { rootMargin: '-45% 0px -50% 0px' },
+  );
+  sections.forEach((s) => io.observe(s));
+}
+
+/* ---------- Reveal on scroll ---------- */
+const reveals = document.querySelectorAll<HTMLElement>('.reveal');
+if (reduceMotion || !('IntersectionObserver' in window)) {
+  reveals.forEach((el) => el.classList.add('is-in'));
+} else {
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      }
+    },
+    { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+  );
+  reveals.forEach((el) => io.observe(el));
+}
+
+/* ---------- Scroll-linked effects: spine, parallax, header, call button ---------- */
+const spine = document.querySelector<HTMLElement>('[data-spine]');
+const heroLayer = document.querySelector<HTMLElement>('[data-parallax-hero]');
+const parallaxFrames = [...document.querySelectorAll<HTMLElement>('[data-parallax]')];
+let ticking = false;
+
+function onScroll() {
+  ticking = false;
+  const y = window.scrollY;
+  const vh = window.innerHeight;
+
+  header?.classList.toggle('is-scrolled', y > 10);
+  if (callBtn) {
+    const threshold = hero ? hero.offsetHeight * 0.6 : 200;
+    callBtn.classList.toggle('is-visible', y > threshold);
+  }
+
+  if (reduceMotion) return;
+
+  if (spine) {
+    const r = spine.getBoundingClientRect();
+    const progress = Math.min(1, Math.max(0, (vh * 0.7 - r.top) / r.height));
+    spine.style.setProperty('--spine', progress.toFixed(4));
+  }
+
+  if (heroLayer && hero && y < hero.offsetHeight * 1.2) {
+    heroLayer.style.transform = `translate3d(0, ${(y * 0.28).toFixed(1)}px, 0)`;
+  }
+
+  for (const frame of parallaxFrames) {
+    const r = frame.getBoundingClientRect();
+    if (r.bottom < -100 || r.top > vh + 100) continue;
+    // -1 (frame at bottom of screen) .. 1 (frame at top)
+    const t = (vh / 2 - (r.top + r.height / 2)) / (vh / 2 + r.height / 2);
+    const img = frame.querySelector('img');
+    img?.style.setProperty('--shift', `${(t * r.height * 0.035).toFixed(1)}px`);
+  }
+}
+window.addEventListener(
+  'scroll',
+  () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(onScroll);
+    }
+  },
+  { passive: true },
+);
+window.addEventListener('resize', onScroll);
+onScroll();
+
+/* ---------- Hero carousel (5 s) ---------- */
+if (hero) {
+  const allSlides = [...hero.querySelectorAll<HTMLElement>('[data-slide]')];
+  const allDots = [...hero.querySelectorAll<HTMLButtonElement>('[data-dot]')];
+  const pauseBtn = hero.querySelector<HTMLButtonElement>('[data-pause]');
+  // Wide screens and phones use different photo sets; only cycle the visible one.
+  let slides: HTMLElement[] = [];
+  let dots: HTMLButtonElement[] = [];
+  let index = 0;
+  let timer: number | undefined;
+  let paused = false;
+
+  const show = (i: number) => {
+    if (!slides.length) return;
+    index = (i + slides.length) % slides.length;
+    allSlides.forEach((s) => {
+      const on = s === slides[index];
+      s.classList.toggle('is-active', on);
+      s.setAttribute('aria-hidden', String(!on));
+    });
+    dots.forEach((d, k) => d.setAttribute('aria-current', String(k === index)));
+    const next = slides[(index + 1) % slides.length]?.querySelector('img');
+    if (next) next.loading = 'eager';
+  };
+  const stop = () => window.clearInterval(timer);
+  const start = () => {
+    stop();
+    if (!paused && slides.length > 1) timer = window.setInterval(() => show(index + 1), 5000);
+  };
+  const collect = () => {
+    slides = allSlides.filter((s) => getComputedStyle(s).display !== 'none');
+    dots = allDots.filter((d) => getComputedStyle(d).display !== 'none');
+    show(0);
+    start();
+  };
+
+  allDots.forEach((d) =>
+    d.addEventListener('click', () => {
+      show(dots.indexOf(d));
+      start();
+    }),
+  );
+  pauseBtn?.addEventListener('click', () => {
+    paused = !paused;
+    pauseBtn.classList.toggle('is-paused', paused);
+    pauseBtn.setAttribute('aria-label', (paused ? pauseBtn.dataset.labelPlay : pauseBtn.dataset.labelPause) ?? '');
+    paused ? stop() : start();
+  });
+  hero.addEventListener('focusin', stop);
+  hero.addEventListener('focusout', start);
+  document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+  window.matchMedia('(max-width: 699px)').addEventListener('change', collect);
+
+  // Swipe on touch screens
+  let x0: number | null = null;
+  hero.addEventListener('touchstart', (e) => (x0 = e.touches[0].clientX), { passive: true });
+  hero.addEventListener('touchend', (e) => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 40) {
+      show(index + (dx < 0 ? 1 : -1));
+      start();
+    }
+    x0 = null;
+  });
+
+  collect();
+}
+
+/* ---------- Lightbox ---------- */
+const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox-dialog]');
+if (dialog) {
+  const img = dialog.querySelector<HTMLImageElement>('[data-lightbox-img]')!;
+  let group: HTMLAnchorElement[] = [];
+  let pos = 0;
+  const open = (i: number) => {
+    pos = (i + group.length) % group.length;
+    const a = group[pos];
+    img.src = a.href;
+    img.alt = a.querySelector('img')?.alt ?? '';
+    const multi = group.length > 1;
+    dialog.querySelectorAll<HTMLElement>('.lb-nav').forEach((b) => (b.hidden = !multi));
+    if (!dialog.open) dialog.showModal();
+  };
+  document.querySelectorAll<HTMLAnchorElement>('[data-lightbox]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      group = [...document.querySelectorAll<HTMLAnchorElement>(`[data-lightbox="${a.dataset.lightbox}"]`)];
+      open(group.indexOf(a));
+    });
+  });
+  dialog.querySelector('[data-lightbox-close]')?.addEventListener('click', () => dialog.close());
+  dialog.querySelector('[data-lightbox-prev]')?.addEventListener('click', () => open(pos - 1));
+  dialog.querySelector('[data-lightbox-next]')?.addEventListener('click', () => open(pos + 1));
+  dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+  dialog.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') open(pos + 1);
+    if (e.key === 'ArrowLeft') open(pos - 1);
+  });
+}
+
+/* ---------- Map: load Google Maps only after consent click ---------- */
+document.querySelectorAll<HTMLElement>('[data-map]').forEach((map) => {
+  map.querySelector('[data-map-load]')?.addEventListener('click', () => {
+    const iframe = document.createElement('iframe');
+    iframe.src = map.dataset.src!;
+    iframe.title = map.dataset.title ?? 'Google Maps';
+    iframe.loading = 'lazy';
+    iframe.referrerPolicy = 'no-referrer-when-downgrade';
+    iframe.allowFullscreen = true;
+    map.querySelector('.map-consent')?.remove();
+    map.append(iframe);
+    iframe.focus();
+  });
+});
+
+/* ---------- "Route planen": open the map app that fits the device ---------- */
+document.querySelectorAll<HTMLAnchorElement>('[data-route]').forEach((a) => {
+  const ua = navigator.userAgent;
+  const isApple = /iPhone|iPad|iPod|Macintosh/.test(ua);
+  const isAndroid = /Android/.test(ua);
+  if (isAndroid && a.dataset.geo) {
+    // geo: lets Android ask which map app to use
+    a.href = a.dataset.geo;
+    a.removeAttribute('target');
+  } else if (isApple && a.dataset.apple) {
+    a.href = a.dataset.apple;
+  }
+});
