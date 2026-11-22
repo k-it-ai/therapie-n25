@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { practice } from '../../i18n/content';
+import { url } from '../../lib/url';
 const year = new Date().getFullYear();
 ---
 <Layout lang="de" title="Impressum – Therapie N25" description="Impressum der Praxis Therapie N25, Nymphenburger Straße 191, 80639 München.">
@@ -67,7 +68,7 @@ const year = new Date().getFullYear();
       Innerhalb des Internetangebotes gibt es keine Möglichkeit zur Eingabe persönlicher oder geschäftlicher Daten
       (E-Mail-Adressen, Namen, Anschriften). Die Kontaktaufnahme mit Therapie N25 erfolgt ausschließlich über
       telefonischen Anruf, per Fax oder per Postversand. Weitere Informationen finden Sie in unserer
-      <a href="/datenschutz/">Datenschutzerklärung</a>.
+      <a href={url('/datenschutz/')}>Datenschutzerklärung</a>.
     </p>
 
     <h3>5. Rechtswirksamkeit dieses Haftungsausschlusses</h3>

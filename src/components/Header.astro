@@ -1,14 +1,15 @@
 ---
 import Wordmark from '../assets/n25-wordmark.svg';
 import { content, type Lang } from '../i18n/content';
+import { url } from '../lib/url';
 
 interface Props { lang: Lang; home: boolean; alternates?: { de: string; en: string } }
 const { lang, home, alternates } = Astro.props;
 const t = content[lang];
-const base = lang === 'de' ? '/' : '/en/';
+const base = url(lang === 'de' ? '/' : '/en/');
 const href = (id: string) => (home ? `#${id}` : `${base}#${id}`);
 const otherLang = lang === 'de' ? 'en' : 'de';
-const langHref = alternates ? alternates[otherLang] : t.ui.langSwitch.href;
+const langHref = url(alternates ? alternates[otherLang] : t.ui.langSwitch.href);
 ---
 <header class="site-header" data-header>
   <div class="bar">

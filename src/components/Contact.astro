@@ -1,6 +1,7 @@
 ---
 import SectionHead from './SectionHead.astro';
 import { content, practice, type Lang } from '../i18n/content';
+import { url } from '../lib/url';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -91,7 +92,7 @@ const embed = `https://www.google.com/maps?q=${q}&z=16&output=embed&hl=${lang}`;
           </svg>
           <div class="consent-box">
             <p class="consent-title">{practice.street}, {practice.zip} {practice.city}</p>
-            <p class="consent-text">{c.map.text} <a href={t.footer.privacyHref + '#google-maps'}>{c.map.privacyLink}</a>.</p>
+            <p class="consent-text">{c.map.text} <a href={url(t.footer.privacyHref) + '#google-maps'}>{c.map.privacyLink}</a>.</p>
             <button type="button" class="btn btn--ghost" data-map-load>{c.map.load}</button>
           </div>
         </div>

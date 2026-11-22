@@ -20,6 +20,18 @@ Upload the **contents** of `dist/` (not the folder itself) into the web root of 
 (e.g. FileZilla or Cyberduck; host and login are in the STRATO customer area under *SFTP*).
 Replace the old files. No server-side software is needed.
 
+## Preview on GitHub Pages
+
+Every push to `main` builds the site and publishes it via `.github/workflows/deploy.yml`.
+
+1. Repo → Settings → Pages → Build and deployment → Source: **GitHub Actions** (one-time).
+2. Preview: https://k-it-ai.github.io/therapie-n25/ (marked `noindex`, so Google ignores it).
+
+To serve the real domain from GitHub instead of STRATO later: enter `www.therapie-n25.de` under
+Settings → Pages → Custom domain and point the domain's DNS at GitHub (STRATO DNS settings: CNAME `www` →
+`k-it-ai.github.io`). The workflow detects the domain automatically: links drop the `/therapie-n25` prefix and
+`noindex` is removed.
+
 ## Where to change things
 
 | What | Where |

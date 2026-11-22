@@ -1,11 +1,12 @@
 ---
 import Wordmark from '../assets/n25-wordmark.svg';
 import { content, practice, type Lang } from '../i18n/content';
+import { url } from '../lib/url';
 
 interface Props { lang: Lang; home: boolean }
 const { lang, home } = Astro.props;
 const t = content[lang];
-const base = lang === 'de' ? '/' : '/en/';
+const base = url(lang === 'de' ? '/' : '/en/');
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
@@ -20,7 +21,7 @@ const year = new Date().getFullYear();
       <a href={practice.phoneHref}>TEL. {practice.phone}</a>
     </address>
     <nav class="legal-links" aria-label={lang === 'de' ? 'Rechtliches' : 'Legal'}>
-      <a href={t.footer.privacyHref}>{t.footer.privacy}</a><span class="sep" aria-hidden="true">|</span><a href={t.footer.imprintHref}>{t.footer.imprint}</a>
+      <a href={url(t.footer.privacyHref)}>{t.footer.privacy}</a><span class="sep" aria-hidden="true">|</span><a href={url(t.footer.imprintHref)}>{t.footer.imprint}</a>
     </nav>
     <p class="copy">{t.footer.copyright} © {practice.since} – {year} {practice.name}</p>
   </div>
