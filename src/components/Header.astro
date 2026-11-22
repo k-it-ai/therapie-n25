@@ -45,10 +45,18 @@ const langHref = url(alternates ? alternates[otherLang] : t.ui.langSwitch.href);
     position: sticky;
     top: 0;
     z-index: 100;
+    transition: box-shadow 0.4s var(--ease);
+  }
+  /* The blurred band lives on a pseudo-element: a backdrop-filter on the header itself
+     would trap the fixed full-screen mobile menu inside the header bar (Safari/iOS). */
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     background: color-mix(in srgb, var(--apricot-300) 94%, transparent);
     backdrop-filter: saturate(1.2) blur(10px);
     -webkit-backdrop-filter: saturate(1.2) blur(10px);
-    transition: box-shadow 0.4s var(--ease);
   }
   .site-header.is-scrolled { box-shadow: 0 1px 0 rgba(46, 74, 95, 0.08), 0 8px 30px -18px rgba(46, 74, 95, 0.35); }
 
@@ -149,7 +157,7 @@ const langHref = url(alternates ? alternates[otherLang] : t.ui.langSwitch.href);
       justify-content: center;
       gap: 2.5rem;
       padding: var(--header-h) 1.5rem 3rem;
-      background: color-mix(in srgb, var(--apricot-300) 90%, transparent);
+      background: color-mix(in srgb, var(--apricot-300) 97%, transparent);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       visibility: hidden;

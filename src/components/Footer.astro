@@ -1,5 +1,6 @@
 ---
 import Wordmark from '../assets/n25-wordmark.svg';
+import KossovIt from '../assets/kossov-it.svg';
 import { content, practice, type Lang } from '../i18n/content';
 import { url } from '../lib/url';
 
@@ -25,6 +26,13 @@ const year = new Date().getFullYear();
     </nav>
     <p class="copy">{t.footer.copyright} © {practice.since} – {year} {practice.name}</p>
   </div>
+  <div class="credit">
+    <span class="credit-line" aria-hidden="true"></span>
+    <a href="https://kossov.it" target="_blank" rel="noopener"
+       aria-label={lang === 'de' ? 'Webdesign: kossov.it (öffnet in neuem Tab)' : 'Web design: kossov.it (opens in a new tab)'}>
+      <KossovIt aria-hidden="true" />
+    </a>
+  </div>
 </footer>
 
 <style>
@@ -48,8 +56,40 @@ const year = new Date().getFullYear();
   .legal-links { text-transform: uppercase; margin-top: 0.4rem; }
   .sep { display: inline-block; margin: 0 0.6rem; opacity: 0.6; }
   .copy { margin: 0.4rem 0 0; }
+
+  /* Designer credit: vertical line + kossov.it mark on the right edge */
+  .credit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--ink);
+  }
+  .credit-line {
+    flex: 1;
+    width: 1px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+  .credit a { display: block; line-height: 0; opacity: 0.9; transition: opacity 0.3s var(--ease), transform 0.3s var(--ease); }
+  .credit a:hover, .credit a:focus-visible { opacity: 1; transform: translateY(-2px); text-decoration: none; }
+  .credit :global(svg) { width: 26px; height: auto; }
+
+  @media (min-width: 700px) {
+    .site-footer { position: relative; }
+    .credit {
+      position: absolute;
+      top: 3.5rem;
+      bottom: 3rem;
+      right: clamp(1.25rem, 3vw, 2.5rem);
+    }
+  }
+  @media (max-width: 699px) {
+    .credit { padding-bottom: 2.5rem; }
+    .credit-line { flex: none; height: 3rem; }
+  }
   @media (max-width: 420px) {
-    address .sep { display: none; }
+    address .sep, address br { display: none; }
     address span { display: block; }
   }
 </style>

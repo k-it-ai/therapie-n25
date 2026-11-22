@@ -4,6 +4,7 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 const header = document.querySelector<HTMLElement>('[data-header]');
 const callBtn = document.querySelector<HTMLElement>('[data-call]');
 const hero = document.querySelector<HTMLElement>('[data-carousel]');
+const footer = document.querySelector<HTMLElement>('.site-footer');
 
 /* ---------- Mobile menu ---------- */
 const burger = document.querySelector<HTMLButtonElement>('[data-burger]');
@@ -14,7 +15,7 @@ function setMenu(open: boolean) {
   if (!burger || !nav) return;
   burger.setAttribute('aria-expanded', String(open));
   nav.classList.toggle('is-open', open);
-  document.body.style.overflow = open ? 'hidden' : '';
+  document.documentElement.classList.toggle('menu-open', open);
   if (burgerLabel) burgerLabel.textContent = (open ? burger.dataset.labelClose : burger.dataset.labelOpen) ?? '';
   if (open) nav.querySelector<HTMLElement>('a')?.focus({ preventScroll: true });
 }
@@ -91,7 +92,9 @@ function onScroll() {
   header?.classList.toggle('is-scrolled', y > 10);
   if (callBtn) {
     const threshold = hero ? hero.offsetHeight * 0.6 : 200;
-    callBtn.classList.toggle('is-visible', y > threshold);
+    // hide again over the footer: it shows the number and the designer credit sits there
+    const footerTop = footer?.getBoundingClientRect().top ?? Infinity;
+    callBtn.classList.toggle('is-visible', y > threshold && footerTop > vh - 40);
   }
 
   if (reduceMotion) return;
