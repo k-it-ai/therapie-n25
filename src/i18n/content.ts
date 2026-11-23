@@ -314,7 +314,7 @@ export const content = {
         { line: 'Bus 53 · 62 · 63', kind: 'bus', text: 'Rotkreuzplatz – 4 Gehminuten' },
       ],
       route: 'Route planen',
-      mapAlt: 'Stadtplan: Therapie N25 an der Nymphenburger Straße 191, nördlich vom Rotkreuzplatz',
+      mapAlt: 'Stadtplan: Therapie N25 an der Nymphenburger Straße 191, mit der Haltestelle Neuhausen (Tram 12, Bus 144) und dem U-Bahnhof Rotkreuzplatz',
       mapCredit: 'Kartendaten © OpenStreetMap-Mitwirkende',
     },
     footer: {
@@ -623,7 +623,7 @@ export const content = {
         { line: 'Bus 53 · 62 · 63', kind: 'bus', text: 'Rotkreuzplatz – 4 minutes’ walk' },
       ],
       route: 'Get directions',
-      mapAlt: 'Street map: Therapie N25 at Nymphenburger Straße 191, north of Rotkreuzplatz',
+      mapAlt: 'Street map: Therapie N25 at Nymphenburger Straße 191, with the Neuhausen stop (tram 12, bus 144) and Rotkreuzplatz U-Bahn station',
       mapCredit: 'Map data © OpenStreetMap contributors',
     },
     footer: {

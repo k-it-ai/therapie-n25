@@ -6,7 +6,8 @@ Usage:
      curl -o map.osm "https://api.openstreetmap.org/api/0.6/map?bbox=11.5225,48.1505,11.5385,48.1615"
   2. python3 scripts/build-map.py map.osm src/assets/map.svg
 
-The map shows streets, parks, street names, the practice pin and the U-Bahn at Rotkreuzplatz.
+The map shows streets, parks, street names, the practice pin, the U-Bahn at Rotkreuzplatz and the
+tram 12 / bus 144 stop Neuhausen (leave the stop out with --no-stops).
 Map data © OpenStreetMap contributors (ODbL) – the page shows this credit next to the map.
 """
 import math
@@ -114,7 +115,7 @@ def inner_run(points, margin):
     return cur if length(cur) > length(best) else best
 
 
-def main(src, dst, stops=False):
+def main(src, dst, stops=True):
     root = ET.parse(src).getroot()
     nodes = {n.get('id'): (float(n.get('lat')), float(n.get('lon'))) for n in root.iter('node')}
     streets, greens = [], []
@@ -205,4 +206,4 @@ def main(src, dst, stops=False):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1], sys.argv[2], stops='--stops' in sys.argv)
+    main(sys.argv[1], sys.argv[2], stops='--no-stops' not in sys.argv)
