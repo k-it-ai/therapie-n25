@@ -261,8 +261,6 @@ button { font: inherit; color: inherit; }
 .btn:hover { background: transparent; color: var(--ink); }
 .btn svg { width: 1.1em; height: 1.1em; flex: none; }
 
-.btn--ghost { background: transparent; color: var(--ink); }
-.btn--ghost:hover { background: var(--ink); color: #fff; }
 
 /* ---------- Expandable text (details) ---------- */
 .more summary {

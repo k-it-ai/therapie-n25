@@ -1,6 +1,5 @@
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- Header: compact state after scrolling ---------- */
 const header = document.querySelector<HTMLElement>('[data-header]');
 const callBtn = document.querySelector<HTMLElement>('[data-call]');
 const hero = document.querySelector<HTMLElement>('[data-carousel]');
@@ -16,6 +15,8 @@ function setMenu(open: boolean) {
   burger.setAttribute('aria-expanded', String(open));
   nav.classList.toggle('is-open', open);
   document.documentElement.classList.toggle('menu-open', open);
+  // keep keyboard focus inside the open menu
+  for (const el of document.querySelectorAll<HTMLElement>('main, footer, .skip-link, [data-call]')) el.inert = open;
   if (burgerLabel) burgerLabel.textContent = (open ? burger.dataset.labelClose : burger.dataset.labelOpen) ?? '';
   if (open) nav.querySelector<HTMLElement>('a')?.focus({ preventScroll: true });
 }
@@ -42,21 +43,20 @@ document.querySelector<HTMLAnchorElement>('[data-lang-link]')?.addEventListener(
 });
 
 /* ---------- Active nav item ---------- */
+// A menu item is underlined once its section heading reaches the upper third of the screen;
+// none while the hero is still in view.
 const navLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')];
-const sections = navLinks
-  .map((a) => document.getElementById(a.dataset.navLink!))
+const headings = navLinks
+  .map((a) => document.getElementById(`${a.dataset.navLink}-title`))
   .filter((el): el is HTMLElement => !!el);
-if (sections.length) {
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        navLinks.forEach((a) => a.setAttribute('aria-current', String(a.dataset.navLink === entry.target.id)));
-      }
-    },
-    { rootMargin: '-45% 0px -50% 0px' },
-  );
-  sections.forEach((s) => io.observe(s));
+let activeId: string | undefined;
+function updateActiveNav() {
+  const line = window.innerHeight * 0.35;
+  const passed = headings.filter((h) => h.getBoundingClientRect().top <= line);
+  const id = passed.at(-1)?.id.replace(/-title$/, '');
+  if (id === activeId) return;
+  activeId = id;
+  navLinks.forEach((a) => a.setAttribute('aria-current', String(a.dataset.navLink === id)));
 }
 
 /* ---------- Reveal on scroll ---------- */
@@ -90,6 +90,7 @@ function onScroll() {
   const vh = window.innerHeight;
 
   header?.classList.toggle('is-scrolled', y > 10);
+  updateActiveNav();
   if (callBtn) {
     const threshold = hero ? hero.offsetHeight * 0.6 : 200;
     // hide again over the footer: it shows the number and the designer credit sits there
@@ -141,7 +142,7 @@ if (hero) {
   let dots: HTMLButtonElement[] = [];
   let index = 0;
   let timer: number | undefined;
-  let paused = false;
+  let paused = reduceMotion;
 
   const show = (i: number) => {
     if (!slides.length) return;
@@ -166,8 +167,8 @@ if (hero) {
   const phoneQuery = window.matchMedia('(max-width: 699px)');
   const collect = () => {
     const set = phoneQuery.matches ? 'tall' : 'wide';
-    slides = allSlides.filter((s) => s.classList.contains(`slide--${set}`));
-    dots = allDots.filter((d) => d.classList.contains(`dot--${set}`));
+    slides = allSlides.filter((s) => s.matches(`.slide--both, .slide--${set}`));
+    dots = allDots.filter((d) => d.matches(`.dot--both, .dot--${set}`));
     show(0);
     start();
   };
@@ -188,6 +189,10 @@ if (hero) {
   hero.addEventListener('focusout', start);
   document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
   phoneQuery.addEventListener('change', collect);
+  if (paused) {
+    pauseBtn?.classList.add('is-paused');
+    pauseBtn?.setAttribute('aria-label', pauseBtn.dataset.labelPlay ?? '');
+  }
 
   // Swipe on touch screens
   let x0: number | null = null;
@@ -211,6 +216,7 @@ if (dialog) {
   const img = dialog.querySelector<HTMLImageElement>('[data-lightbox-img]')!;
   let group: HTMLAnchorElement[] = [];
   let pos = 0;
+  let opener: HTMLElement | null = null;
   const open = (i: number) => {
     pos = (i + group.length) % group.length;
     const a = group[pos];
@@ -224,6 +230,7 @@ if (dialog) {
     a.addEventListener('click', (e) => {
       e.preventDefault();
       group = [...document.querySelectorAll<HTMLAnchorElement>(`[data-lightbox="${a.dataset.lightbox}"]`)];
+      opener = a;
       open(group.indexOf(a));
     });
   });
@@ -231,6 +238,7 @@ if (dialog) {
   dialog.querySelector('[data-lightbox-prev]')?.addEventListener('click', () => open(pos - 1));
   dialog.querySelector('[data-lightbox-next]')?.addEventListener('click', () => open(pos + 1));
   dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+  dialog.addEventListener('close', () => opener?.focus());
   dialog.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight') open(pos + 1);
     if (e.key === 'ArrowLeft') open(pos - 1);
@@ -238,14 +246,25 @@ if (dialog) {
 }
 
 /* ---------- Was wir tun on phones: tap a row to open photo + text ---------- */
-document.querySelectorAll<HTMLButtonElement>('[data-acc-btn]').forEach((btn) => {
-  const panel = document.getElementById(btn.getAttribute('aria-controls')!);
-  btn.addEventListener('click', () => {
-    const open = btn.getAttribute('aria-expanded') !== 'true';
-    btn.setAttribute('aria-expanded', String(open));
+const accQuery = window.matchMedia('(max-width: 899px)');
+const accButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-acc-btn]')];
+const syncAccordion = () => {
+  for (const btn of accButtons) {
+    const panel = document.getElementById(btn.getAttribute('aria-controls')!);
+    const open = btn.getAttribute('aria-expanded') === 'true';
     panel?.classList.toggle('is-open', open);
-  });
-});
+    // hidden panels must not be reachable with the keyboard; on desktop everything is shown
+    if (panel) panel.inert = accQuery.matches && !open;
+  }
+};
+accButtons.forEach((btn) =>
+  btn.addEventListener('click', () => {
+    btn.setAttribute('aria-expanded', String(btn.getAttribute('aria-expanded') !== 'true'));
+    syncAccordion();
+  }),
+);
+accQuery.addEventListener('change', syncAccordion);
+syncAccordion();
 
 /* ---------- "Route planen": open the map app that fits the device ---------- */
 document.querySelectorAll<HTMLAnchorElement>('[data-route]').forEach((a) => {

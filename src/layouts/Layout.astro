@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { content, practice, type Lang } from '../i18n/content';
 import { url } from '../lib/url';
+import jostFont from '@fontsource-variable/jost/files/jost-latin-wght-normal.woff2?url';
 
 interface Props {
   lang: Lang;
@@ -23,14 +24,20 @@ const t = content[lang];
 const site = Astro.site!;
 const canonical = new URL(Astro.url.pathname, site).href;
 
+const ogImage = new URL(url('/og-therapie-n25.jpg'), site).href;
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': ['MedicalBusiness', 'Physiotherapy'],
   name: practice.name,
   description: content.de.meta.description,
   url: new URL(url('/'), site).href,
+  image: ogImage,
   telephone: '+49 89 20062038',
   faxNumber: '+49 89 20062039',
+  email: practice.email,
+  geo: { '@type': 'GeoCoordinates', latitude: 48.15658, longitude: 11.53039 },
+  areaServed: 'München',
+  knowsLanguage: ['de', 'en'],
   address: {
     '@type': 'PostalAddress',
     streetAddress: practice.street,
@@ -60,14 +67,20 @@ const jsonLd = {
         <link rel="alternate" hreflang="x-default" href={new URL(url(alternates.de), site).href} />
       </>
     )}
+    <link rel="preload" href={jostFont} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
     <meta name="theme-color" content="#edbc8f" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Therapie N25" />
     <meta property="og:title" content={title ?? t.meta.title} />
     <meta property="og:description" content={description ?? t.meta.description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL(url('/og-therapie-n25.jpg'), site).href} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Therapie N25 – Physiotherapie | Osteopathie" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:locale" content={lang === 'de' ? 'de_DE' : 'en_GB'} />
     {home && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <script is:inline>document.documentElement.classList.add('js');</script>

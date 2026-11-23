@@ -7,5 +7,5 @@ export default defineConfig({
   site: process.env.SITE_URL || 'https://www.therapie-n25.de',
   base: process.env.BASE_PATH || '/',
   trailingSlash: 'ignore',
-  build: { format: 'directory' },
+  build: { format: 'directory', inlineStylesheets: 'always' },
 });

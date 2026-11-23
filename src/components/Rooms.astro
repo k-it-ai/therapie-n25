@@ -9,6 +9,23 @@ const { lang } = Astro.props;
 const t = content[lang];
 const r = t.rooms;
 
+// Frames crop with object-fit: cover, so a photo in a frame of a different shape
+// needs more pixels than the frame's width suggests.
+function imgSize(count: number, k: number, key: PhotoKey) {
+  if (count === 4 && k > 0) {
+    const landscape = photos[key].src.width > photos[key].src.height;
+    return landscape
+      ? { widths: [360, 480, 720, 960], sizes: '(min-width: 900px) 360px, 66vw' }
+      : { widths: [240, 360, 480, 720], sizes: '(min-width: 900px) 180px, 33vw' };
+  }
+  if (count === 2) {
+    return k === 0
+      ? { widths: [480, 720, 960, 1280, 1600], sizes: '(min-width: 900px) 700px, 100vw' }
+      : { widths: [320, 480, 640, 960], sizes: '(min-width: 900px) 320px, 50vw' };
+  }
+  return { widths: [480, 720, 960, 1280, 1600, 2000], sizes: '(min-width: 900px) 540px, 100vw' };
+}
+
 // Large versions for the lightbox
 const large: Record<string, string> = {};
 for (const room of r.items) {
@@ -34,18 +51,12 @@ for (const room of r.items) {
             </div>
 
             <div class={`gallery reveal count-${keys.length}`}>
-              {keys.length === 0 && (
-                <div class="frame placeholder" data-placeholder="room">
-                  <svg viewBox="0 0 48 48" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="10" width="36" height="28" rx="2"/><circle cx="17" cy="20" r="3.5"/><path d="M6 33l11-9 8 6 6-4 11 8"/></g></svg>
-                  <span>{t.ui.photoFollows}</span>
-                </div>
-              )}
               {keys.map((key, k) => (
                 <a class="frame" href={large[key]} data-lightbox={room.id} data-parallax
                    aria-label={`${t.ui.enlarge}: ${photos[key].alt[lang]}`}>
                   <Picture src={photos[key].src} alt={photos[key].alt[lang]}
-                    widths={k === 0 ? [480, 720, 960, 1280] : [240, 360, 480, 720]}
-                    sizes={k === 0 ? '(min-width: 900px) 540px, 100vw' : '(min-width: 900px) 180px, 33vw'}
+                    widths={imgSize(keys.length, k, key).widths}
+                    sizes={imgSize(keys.length, k, key).sizes}
                     formats={['avif', 'webp']}
                     style={`object-position:${'position' in photos[key] ? photos[key].position : '50% 50%'}`} />
                 </a>
@@ -63,10 +74,10 @@ for (const room of r.items) {
   <button type="button" class="lb-close" data-lightbox-close aria-label={t.ui.close}>
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.6"/></svg>
   </button>
-  <button type="button" class="lb-nav lb-prev" data-lightbox-prev aria-label="‹">
+  <button type="button" class="lb-nav lb-prev" data-lightbox-prev aria-label={t.ui.prev}>
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
   </button>
-  <button type="button" class="lb-nav lb-next" data-lightbox-next aria-label="›">
+  <button type="button" class="lb-nav lb-next" data-lightbox-next aria-label={t.ui.next}>
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
   </button>
 </dialog>
@@ -91,21 +102,6 @@ for (const room of r.items) {
   .count-2 { grid-template-columns: 3fr 2fr; }
   .count-2 .frame { aspect-ratio: auto; height: clamp(300px, 36vw, 460px); }
 
-  .gallery .placeholder {
-    aspect-ratio: 3 / 2;
-    display: grid;
-    place-content: center;
-    justify-items: center;
-    gap: 0.75rem;
-    cursor: default;
-    background:
-      repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--apricot-300) 18%, transparent) 14px 15px),
-      var(--apricot-50);
-    border: 1px dashed var(--apricot-300);
-    color: var(--apricot-400);
-  }
-  .placeholder svg { width: 56px; }
-  .placeholder span { color: var(--text-soft); font-style: italic; }
 
 
   .lightbox {

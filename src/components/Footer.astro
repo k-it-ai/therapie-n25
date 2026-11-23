@@ -37,7 +37,7 @@ const year = new Date().getFullYear();
   </div>
   <div class="credit credit--h">
     <a href="https://kossov.it" target="_blank" rel="noopener"
-       aria-label={lang === 'de' ? 'Webdesign: kossov.it (öffnet in neuem Tab)' : 'Web design: kossov.it (opens in a new tab)'}>
+       aria-label={`${t.footer.webdesign} kossov.it (${lang === 'de' ? 'öffnet in neuem Tab' : 'opens in a new tab'})`}>
       <span class="credit-label" aria-hidden="true">{t.footer.webdesign}</span>
       <KossovItH aria-hidden="true" />
     </a>
@@ -108,7 +108,7 @@ const year = new Date().getFullYear();
       margin: 0 auto;
       line-height: 1;
     }
-    .credit-label { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75; }
+    .credit-label { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; }
     .credit--h :global(svg) { width: 72px; height: auto; }
   }
   @media (max-width: 420px) {

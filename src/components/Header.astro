@@ -116,7 +116,13 @@ const langHref = url(alternates ? alternates[otherLang] : t.ui.langSwitch.href);
     }
     /* .nav .lang: must beat `.nav a` (which sets the ink text colour) */
     .nav .lang:hover, .nav .lang:focus-visible { background: var(--ink); color: #fff; }
-    .lang-long { display: none; }
+    .lang-long {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
   }
 
   /* ---- Mobile & small tablet: overlay menu ---- */

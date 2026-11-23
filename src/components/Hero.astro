@@ -7,41 +7,44 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = content[lang];
 
-// Wide screens show landscape photos, phones show portrait photos.
-// `position` overrides the photo's default crop for this slide.
-const slides: { key: PhotoKey; set: 'wide' | 'tall'; position?: string }[] = [
-  { key: 'fassade', set: 'wide', position: '50% 9%' },
+// Wide screens show landscape photos, phones portrait ones; the facade opens both.
+// `pos` / `posTall` override the photo's default crop on wide screens / phones.
+type Slide = { key: PhotoKey; set: 'both' | 'wide' | 'tall'; pos?: string; posTall?: string };
+const slides: Slide[] = [
+  { key: 'fassade', set: 'both', pos: '50% 9%', posTall: '50% 30%' },
   { key: 'empfang', set: 'wide' },
   { key: 'therapieraum-bunt', set: 'wide' },
   { key: 'trainingsraum', set: 'wide' },
   { key: 'empfang-flur', set: 'wide' },
-  { key: 'fassade', set: 'tall', position: '50% 30%' },
   { key: 'therapieraum-hell', set: 'tall' },
   { key: 'therapieraum-erker', set: 'tall' },
   { key: 'wartebereich', set: 'tall' },
   { key: 'gyrotonic', set: 'tall' },
 ];
-const firstTall = slides.findIndex((s) => s.set === 'tall');
+const position = ({ key, pos, posTall }: Slide) => {
+  const base = pos ?? ('position' in photos[key] ? photos[key].position : '50% 50%');
+  return `--pos:${base};--pos-tall:${posTall ?? base}`;
+};
+// slide number within its own set, for the dot labels
+const number = (i: number) =>
+  slides.slice(0, i + 1).filter((s) => s.set === 'both' || s.set === slides[i].set).length;
 ---
 <section class="hero" id="top" aria-roledescription="carousel" aria-label={t.hero.srTitle} data-carousel>
   <div class="slides" data-parallax-hero>
-    {slides.map(({ key, set, position }, i) => {
-      const first = i === 0 || i === firstTall;
-      return (
-        <div class={`slide slide--${set}${first ? ' is-active' : ''}`} data-slide aria-hidden={first ? 'false' : 'true'}>
-          <Picture
-            src={photos[key].src}
-            alt={photos[key].alt[lang]}
-            widths={set === 'wide' ? [960, 1280, 1920, 2400] : [480, 720, 960, 1280]}
-            sizes="100vw"
-            formats={['avif', 'webp']}
-            loading={first ? 'eager' : 'lazy'}
-            fetchpriority={first ? 'high' : 'auto'}
-            style={`object-position:${position ?? ('position' in photos[key] ? photos[key].position : '50% 50%')}`}
-          />
-        </div>
-      );
-    })}
+    {slides.map((slide, i) => (
+      <div class={`slide slide--${slide.set}${i === 0 ? ' is-active' : ''}`} data-slide aria-hidden={i === 0 ? 'false' : 'true'}>
+        <Picture
+          src={photos[slide.key].src}
+          alt={photos[slide.key].alt[lang]}
+          widths={slide.set === 'tall' ? [480, 720, 960, 1280, 1600] : [960, 1280, 1920, 2400, 3200]}
+          sizes="100vw"
+          formats={['avif', 'webp']}
+          loading={i === 0 ? 'eager' : 'lazy'}
+          fetchpriority={i === 0 ? 'high' : 'low'}
+          style={position(slide)}
+        />
+      </div>
+    ))}
   </div>
 
   <div class="hero-info">
@@ -55,9 +58,9 @@ const firstTall = slides.findIndex((s) => s.set === 'tall');
     </p>
     <div class="controls">
       <div class="dots" role="group" aria-label={t.ui.slideGoto}>
-        {slides.map(({ set }, i) => (
-          <button type="button" class={`dot dot--${set}`} data-dot={i}
-                  aria-label={`${t.ui.slideGoto} ${(set === 'wide' ? i : i - firstTall) + 1}`}></button>
+        {slides.map((slide, i) => (
+          <button type="button" class={`dot dot--${slide.set}`} data-dot={i}
+                  aria-label={`${t.ui.slideGoto} ${number(i)}`}></button>
         ))}
       </div>
       <button type="button" class="pause" data-pause
@@ -97,6 +100,7 @@ const firstTall = slides.findIndex((s) => s.set === 'tall');
   .slide :global(picture), .slide :global(img) { width: 100%; height: 100%; }
   .slide :global(img) {
     object-fit: cover;
+    object-position: var(--pos);
     transform: scale(1.04);
     transition: transform 7s linear;
   }
@@ -176,6 +180,7 @@ const firstTall = slides.findIndex((s) => s.set === 'tall');
       flex-direction: column;
     }
     .slides { position: relative; inset: auto; flex: 1; min-height: 0; }
+    .slide :global(img) { object-position: var(--pos-tall); }
     .hero-info {
       position: relative;
       backdrop-filter: none;
