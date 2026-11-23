@@ -40,14 +40,19 @@ Settings → Pages → Custom domain and point the domain's DNS at GitHub (STRAT
 | Photos (file + alt text) | `src/assets/photos/`, `src/lib/photos.ts` |
 | Hero slideshow photos | `src/components/Hero.astro` (`slides`) |
 | Room photos | `rooms.items[].photos` in `src/i18n/content.ts` |
+| Social preview image (WhatsApp etc.) | `public/og-therapie-n25.jpg` |
 | Colours, fonts, spacing | `src/styles/global.css` (`:root`) |
 | Impressum / Datenschutz | `src/pages/impressum/`, `src/pages/datenschutz/` |
 
 ### Placeholders still to fill
 - **Team photo** – `src/components/Team.astro` (`.team-photo`): replace the placeholder with a `<Picture>`.
-- **Impressum** – "Webdesign & Entwicklung" name.
+
+### Location map
+`src/assets/map.svg` is drawn from OpenStreetMap data by `scripts/build-map.py` (see the comment at the top
+of the script for the two commands). The credit "© OpenStreetMap-Mitwirkende" next to the map is required by
+the OpenStreetMap licence (ODbL).
 
 ## Notes
 - Fonts are self-hosted (no Google Fonts request).
-- Google Maps loads only after the visitor clicks "Karte laden" (GDPR); the privacy page describes this.
+- No third-party requests: the map is a static image, fonts are self-hosted.
 - "Route planen" opens Apple Maps on Apple devices, the app chooser on Android and Google Maps elsewhere.

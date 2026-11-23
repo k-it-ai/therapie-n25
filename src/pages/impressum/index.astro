@@ -20,14 +20,30 @@ const year = new Date().getFullYear();
     <p>
       Telefon: <a href={practice.phoneHref}>{practice.phone}</a><br />
       Fax: {practice.fax}<br />
+      E-Mail: <a href={`mailto:${practice.email}`}>{practice.email}</a><br />
       Internet: www.therapie-n25.de
     </p>
+    <p>Termine vereinbaren Sie bitte telefonisch.</p>
+
+    <h2>Berufsbezeichnung und berufsrechtliche Regelungen</h2>
+    <p>
+      Gesetzliche Berufsbezeichnungen der Inhaberin: Physiotherapeutin, Heilpraktikerin –
+      verliehen in der Bundesrepublik Deutschland.
+    </p>
+    <p>Es gelten insbesondere folgende berufsrechtliche Regelungen:</p>
+    <ul>
+      <li><a href="https://www.gesetze-im-internet.de/mphg/" rel="noopener" target="_blank">Masseur- und Physiotherapeutengesetz (MPhG)</a></li>
+      <li><a href="https://www.gesetze-im-internet.de/physth-aprv/" rel="noopener" target="_blank">Ausbildungs- und Prüfungsverordnung für Physiotherapeuten (PhysTh-APrV)</a></li>
+      <li><a href="https://www.gesetze-im-internet.de/heilprg/" rel="noopener" target="_blank">Heilpraktikergesetz (HeilprG)</a> und die dazu ergangene Durchführungsverordnung</li>
+    </ul>
+    <p>Die Regelungen sind unter www.gesetze-im-internet.de abrufbar. Eine Berufskammer besteht für diese Berufe nicht.</p>
+    <p>Zuständige Aufsichtsbehörde (Heilpraktikererlaubnis): Gesundheitsreferat der Landeshauptstadt München.</p>
 
     <h2>Bildnachweis</h2>
-    <p>Kurt Vogl, Lorenz Bühler</p>
+    <p>Paul Vogl, Lorenz Bühler</p>
 
     <h2>Webdesign &amp; Entwicklung</h2>
-    <p>[Name / Agentur eintragen]</p>
+    <p><a href="https://kossov.it" rel="noopener" target="_blank">kossov.it</a></p>
 
     <p>Copyright © {practice.since} – {year} Therapie N25 München. Alle Rechte vorbehalten.</p>
 
@@ -46,8 +62,9 @@ const year = new Date().getFullYear();
 
     <h3>2. Verweise und Links</h3>
     <p>
-      Diese Website enthält Links zu externen Websites Dritter (z. B. Google Maps, Apple Karten, OpenStreetMap und
-      Verband der Osteopathen Deutschland e.V.), auf deren Inhalte der Herausgeber keinen Einfluss hat. Für die Inhalte
+      Diese Website enthält Links zu externen Websites Dritter (z. B. Google Maps, Apple Karten, OpenStreetMap,
+      gesetze-im-internet.de und Verband der Osteopathen Deutschland e.V.), auf deren Inhalte der Herausgeber keinen
+      Einfluss hat. Für die Inhalte
       der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber verantwortlich. Zum Zeitpunkt der
       Verlinkung waren keine Rechtsverstöße erkennbar. Bei Bekanntwerden von Rechtsverletzungen werden derartige Links
       umgehend entfernt.
@@ -66,8 +83,7 @@ const year = new Date().getFullYear();
     <h3>4. Datenschutz</h3>
     <p>
       Innerhalb des Internetangebotes gibt es keine Möglichkeit zur Eingabe persönlicher oder geschäftlicher Daten
-      (E-Mail-Adressen, Namen, Anschriften). Die Kontaktaufnahme mit Therapie N25 erfolgt ausschließlich über
-      telefonischen Anruf, per Fax oder per Postversand. Weitere Informationen finden Sie in unserer
+      (z. B. kein Kontaktformular). Weitere Informationen finden Sie in unserer
       <a href={url('/datenschutz/')}>Datenschutzerklärung</a>.
     </p>
 
@@ -78,5 +94,7 @@ const year = new Date().getFullYear();
       nicht vollständig entsprechen sollten, bleiben die übrigen Teile des Dokumentes in ihrem Inhalt und ihrer
       Gültigkeit davon unberührt.
     </p>
+
+    <p class="stand">Stand: November 2026</p>
   </article>
 </Layout>

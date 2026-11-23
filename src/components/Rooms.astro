@@ -35,7 +35,7 @@ for (const room of r.items) {
 
             <div class={`gallery reveal count-${keys.length}`}>
               {keys.length === 0 && (
-                <div class="frame placeholder" data-placeholder="kinderraum">
+                <div class="frame placeholder" data-placeholder="room">
                   <svg viewBox="0 0 48 48" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="10" width="36" height="28" rx="2"/><circle cx="17" cy="20" r="3.5"/><path d="M6 33l11-9 8 6 6-4 11 8"/></g></svg>
                   <span>{t.ui.photoFollows}</span>
                 </div>
@@ -44,8 +44,8 @@ for (const room of r.items) {
                 <a class="frame" href={large[key]} data-lightbox={room.id} data-parallax
                    aria-label={`${t.ui.enlarge}: ${photos[key].alt[lang]}`}>
                   <Picture src={photos[key].src} alt={photos[key].alt[lang]}
-                    widths={k === 0 ? [480, 720, 960, 1280] : [320, 480, 640, 960]}
-                    sizes={k === 0 ? '(min-width: 900px) 540px, 100vw' : '(min-width: 900px) 320px, 50vw'}
+                    widths={k === 0 ? [480, 720, 960, 1280] : [240, 360, 480, 720]}
+                    sizes={k === 0 ? '(min-width: 900px) 540px, 100vw' : '(min-width: 900px) 180px, 33vw'}
                     formats={['avif', 'webp']}
                     style={`object-position:${'position' in photos[key] ? photos[key].position : '50% 50%'}`} />
                 </a>
@@ -55,7 +55,6 @@ for (const room of r.items) {
         );
       })}
     </div>
-    <p class="credit">{r.credit}</p>
   </div>
 </section>
 
@@ -82,6 +81,9 @@ for (const room of r.items) {
 
   .gallery { display: grid; gap: 0.75rem; }
   .gallery .frame { display: block; cursor: zoom-in; }
+  .count-4 { grid-template-columns: repeat(3, 1fr); }
+  .count-4 .frame:first-child { grid-column: 1 / -1; aspect-ratio: 3 / 2; }
+  .count-4 .frame:not(:first-child) { aspect-ratio: 3 / 4; }
   .count-3 { grid-template-columns: 1fr 1fr; }
   .count-3 .frame:first-child { grid-column: 1 / -1; aspect-ratio: 3 / 2; }
   .count-3 .frame:not(:first-child) { aspect-ratio: 1 / 1; }
@@ -105,16 +107,6 @@ for (const room of r.items) {
   .placeholder svg { width: 56px; }
   .placeholder span { color: var(--text-soft); font-style: italic; }
 
-  .credit {
-    position: relative;
-    z-index: 1;
-    width: fit-content;
-    margin: clamp(3rem, 6vw, 4rem) auto 0;
-    padding: 0.25rem 1rem;
-    background: var(--paper);
-    font-size: 0.82rem;
-    color: var(--text-soft);
-  }
 
   .lightbox {
     width: 100vw; height: 100vh;

@@ -10,7 +10,8 @@ import { practice } from '../../i18n/content';
     <address>
       Therapie N25 – Monika Vogl<br />
       {practice.street}, {practice.zip} {practice.city}<br />
-      Telefon: <a href={practice.phoneHref}>{practice.phone}</a>
+      Telefon: <a href={practice.phoneHref}>{practice.phone}</a><br />
+      E-Mail: <a href={`mailto:${practice.email}`}>{practice.email}</a>
     </address>
 
     <h2>2. Allgemeines</h2>
@@ -25,42 +26,51 @@ import { practice } from '../../i18n/content';
 
     <h2>3. Hosting und Server-Logfiles</h2>
     <p>
-      Unsere Website wird bei der STRATO AG, Otto-Ostrowski-Straße 7, 10249 Berlin, gehostet. Beim Aufruf der Website
-      speichert der Server automatisch Informationen, die Ihr Browser übermittelt (IP-Adresse, Datum und Uhrzeit,
-      aufgerufene Seite, Referrer-URL, Browsertyp und Betriebssystem). Diese Daten sind technisch erforderlich, um die
-      Website auszuliefern und ihre Sicherheit zu gewährleisten (Art. 6 Abs. 1 lit. f DSGVO). Sie werden nicht mit
-      anderen Datenquellen zusammengeführt und nach kurzer Zeit gelöscht.
+      Unsere Website wird über GitHub Pages bereitgestellt. Anbieter ist die GitHub, Inc., 88 Colin P. Kelly Jr.
+      Street, San Francisco, CA 94107, USA. Beim Aufruf der Website verarbeitet GitHub automatisch die Informationen,
+      die Ihr Browser übermittelt, insbesondere Ihre IP-Adresse, Datum und Uhrzeit des Abrufs, die aufgerufene Seite
+      sowie Browsertyp und Betriebssystem. Laut GitHub wird die IP-Adresse aus Sicherheitsgründen protokolliert.
+    </p>
+    <p>
+      Die Verarbeitung ist technisch erforderlich, um die Website auszuliefern und ihre Sicherheit zu gewährleisten;
+      Rechtsgrundlage ist unser berechtigtes Interesse (Art. 6 Abs. 1 lit. f DSGVO). GitHub verarbeitet Daten auch in
+      den USA. Die Übermittlung erfolgt auf Grundlage geeigneter Garantien nach Art. 44 ff. DSGVO
+      (Standardvertragsklauseln bzw. EU-US Data Privacy Framework). Welche Daten GitHub wie lange speichert, ergibt
+      sich aus der Datenschutzerklärung von GitHub:
+      <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener" target="_blank">GitHub Privacy Statement</a>.
     </p>
 
-    <h2>4. Schriftarten</h2>
+    <h2>4. Kontaktaufnahme</h2>
     <p>
-      Die auf dieser Website verwendete Schrift ist lokal auf unserem Server eingebunden. Es findet keine Verbindung zu
-      Servern Dritter (z. B. Google Fonts) statt.
+      Wenn Sie uns per Telefon, Fax oder E-Mail kontaktieren, verarbeiten wir Ihre Angaben (z. B. Name,
+      Telefonnummer, E-Mail-Adresse und Ihr Anliegen), um Ihre Anfrage zu bearbeiten. Rechtsgrundlage ist Art. 6
+      Abs. 1 lit. b DSGVO, soweit es um eine Behandlung oder deren Anbahnung geht, und im Übrigen unser berechtigtes
+      Interesse an der Beantwortung von Anfragen (Art. 6 Abs. 1 lit. f DSGVO). Teilen Sie uns dabei
+      Gesundheitsdaten mit, verarbeiten wir diese nur, soweit sie für die Behandlung erforderlich sind (Art. 9
+      Abs. 2 lit. h DSGVO). Termine vereinbaren wir ausschließlich telefonisch; bitte senden Sie uns keine
+      Gesundheitsdaten per unverschlüsselter E-Mail.
+    </p>
+    <p>
+      Wir löschen Ihre Angaben, sobald sie für den Zweck nicht mehr erforderlich sind, sofern keine gesetzlichen
+      Aufbewahrungspflichten (z. B. für Behandlungsunterlagen) entgegenstehen.
     </p>
 
-    <h2 id="google-maps">5. Google Maps (nur nach Ihrer Einwilligung)</h2>
+    <h2>5. Schriftarten</h2>
     <p>
-      Im Bereich „So kommen Sie zu uns“ können Sie eine Karte von Google Maps anzeigen lassen. Anbieter ist die Google
-      Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland.
-    </p>
-    <p>
-      Die Karte wird erst geladen, wenn Sie auf „Karte laden“ klicken. Erst dann wird eine Verbindung zu Servern von
-      Google hergestellt; dabei werden insbesondere Ihre IP-Adresse und die Information, dass Sie unsere Seite
-      aufgerufen haben, an Google übertragen. Sind Sie bei Google eingeloggt, kann Google den Besuch Ihrem Konto
-      zuordnen. Rechtsgrundlage ist Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die Sie durch den Klick erteilen.
-      Die Einwilligung gilt nur für den aktuellen Seitenaufruf; beim erneuten Laden der Seite wird die Karte nicht
-      automatisch angezeigt.
-    </p>
-    <p>
-      Google verarbeitet Daten auch in den USA. Google LLC ist unter dem EU-US Data Privacy Framework zertifiziert. Mehr
-      Informationen finden Sie in der Datenschutzerklärung von Google:
-      <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">policies.google.com/privacy</a>.
+      Die auf dieser Website verwendete Schrift ist lokal eingebunden. Es findet keine Verbindung zu Servern Dritter
+      (z. B. Google Fonts) statt.
     </p>
 
-    <h2>6. Links zu Kartendiensten</h2>
+    <h2>6. Karte und Links zu Kartendiensten</h2>
     <p>
-      Über „Route planen“ bzw. „Öffnen in“ gelangen Sie zu Apple Karten, Google Maps oder OpenStreetMap. Erst mit dem
-      Klick verlassen Sie unsere Website; für die Datenverarbeitung dort ist der jeweilige Anbieter verantwortlich.
+      Die Karte im Bereich „So kommen Sie zu uns“ ist ein statisches Bild, das zusammen mit der Website ausgeliefert
+      wird. Es basiert auf Kartendaten von OpenStreetMap (© OpenStreetMap-Mitwirkende, ODbL). Beim Anzeigen der Karte
+      wird keine Verbindung zu einem Kartendienst hergestellt.
+    </p>
+    <p>
+      Über „Route planen“ gelangen Sie – je nach Gerät – zu Apple Karten, Google Maps oder der Karten-App Ihres
+      Smartphones. Erst mit diesem Klick verlassen Sie unsere Website; für die Datenverarbeitung dort ist der
+      jeweilige Anbieter verantwortlich.
     </p>
 
     <h2>7. Ihre Rechte</h2>
@@ -85,5 +95,7 @@ import { practice } from '../../i18n/content';
       Betreiber der Seiten behalten sich ausdrücklich rechtliche Schritte im Falle der unverlangten Zusendung von
       Werbeinformationen, etwa durch Spam-Mails, vor.
     </p>
+
+    <p class="stand">Stand: November 2026</p>
   </article>
 </Layout>

@@ -1,6 +1,7 @@
 ---
 import Wordmark from '../assets/n25-wordmark.svg';
 import KossovIt from '../assets/kossov-it.svg';
+import KossovItH from '../assets/kossov-it-h.svg';
 import { content, practice, type Lang } from '../i18n/content';
 import { url } from '../lib/url';
 
@@ -26,11 +27,19 @@ const year = new Date().getFullYear();
     </nav>
     <p class="copy">{t.footer.copyright} © {practice.since} – {year} {practice.name}</p>
   </div>
-  <div class="credit">
+  <!-- Designer credit. Desktop: vertical mark on the right edge. Phones: own row at the bottom. -->
+  <div class="credit credit--v">
     <span class="credit-line" aria-hidden="true"></span>
     <a href="https://kossov.it" target="_blank" rel="noopener"
        aria-label={lang === 'de' ? 'Webdesign: kossov.it (öffnet in neuem Tab)' : 'Web design: kossov.it (opens in a new tab)'}>
       <KossovIt aria-hidden="true" />
+    </a>
+  </div>
+  <div class="credit credit--h">
+    <a href="https://kossov.it" target="_blank" rel="noopener"
+       aria-label={lang === 'de' ? 'Webdesign: kossov.it (öffnet in neuem Tab)' : 'Web design: kossov.it (opens in a new tab)'}>
+      <span class="credit-label" aria-hidden="true">{t.footer.webdesign}</span>
+      <KossovItH aria-hidden="true" />
     </a>
   </div>
 </footer>
@@ -59,7 +68,7 @@ const year = new Date().getFullYear();
 
   /* Designer credit: vertical line + kossov.it mark on the right edge (all screen sizes) */
   .site-footer { position: relative; }
-  .credit {
+  .credit--v {
     position: absolute;
     top: 3.5rem;
     bottom: 3rem;
@@ -78,11 +87,29 @@ const year = new Date().getFullYear();
   }
   .credit a { display: block; line-height: 0; opacity: 0.9; transition: opacity 0.3s var(--ease), transform 0.3s var(--ease); }
   .credit a:hover, .credit a:focus-visible { opacity: 1; transform: translateY(-2px); text-decoration: none; }
-  .credit :global(svg) { width: 26px; height: auto; }
+  .credit--v :global(svg) { width: 26px; height: auto; }
 
-  /* Phones: equal side padding so the centred text never runs into the line */
+  .credit--h { display: none; }
   @media (max-width: 699px) {
-    .inner { padding-inline: 3.25rem; }
+    .credit--v { display: none; }
+    .credit--h {
+      display: block;
+      margin: 0 var(--gutter);
+      padding: 1.25rem 0 1.5rem;
+      border-top: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
+      color: var(--ink);
+    }
+    .credit--h a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      width: fit-content;
+      margin: 0 auto;
+      line-height: 1;
+    }
+    .credit-label { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75; }
+    .credit--h :global(svg) { width: 72px; height: auto; }
   }
   @media (max-width: 420px) {
     address .sep, address br { display: none; }

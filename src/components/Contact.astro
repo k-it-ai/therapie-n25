@@ -1,7 +1,7 @@
 ---
 import SectionHead from './SectionHead.astro';
+import MapSvg from '../assets/map.svg';
 import { content, practice, type Lang } from '../i18n/content';
-import { url } from '../lib/url';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -11,10 +11,8 @@ const q = encodeURIComponent(practice.mapsQuery);
 const links = {
   google: `https://www.google.com/maps/dir/?api=1&destination=${q}`,
   apple: `https://maps.apple.com/?daddr=${q}`,
-  osm: `https://www.openstreetmap.org/search?query=${encodeURIComponent(`${practice.street}, ${practice.zip} ${practice.city}`)}`,
   geo: `geo:0,0?q=${q}`,
 };
-const embed = `https://www.google.com/maps?q=${q}&z=16&output=embed&hl=${lang}`;
 ---
 <section class="section contact" id="anfahrt" aria-labelledby="anfahrt-title">
   <div class="wrap">
@@ -50,53 +48,25 @@ const embed = `https://www.google.com/maps?q=${q}&z=16&output=embed&hl=${lang}`;
           <ul class="transit">
             {c.transit.map((tr) => (
               <li>
-                <span class={`badge ${tr.line.startsWith('U') ? 'badge-u' : 'badge-tram'}`}>{tr.line}</span>
+                <span class={`badge badge-${tr.kind}`}>{tr.line}</span>
                 <span>{tr.text}</span>
               </li>
             ))}
           </ul>
         </div>
-
-        <div class="route">
-          <a class="btn" href={links.google} data-route
-             data-apple={links.apple} data-geo={links.geo} target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c-3.9 0-7 3-7 6.9 0 5.1 7 12.1 7 12.1s7-7 7-12.1c0-3.9-3.1-6.9-7-6.9z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9.5" r="2.4" fill="currentColor"/></svg>
-            {c.route}
-          </a>
-          <p class="others">
-            {c.routeOthers}
-            <a href={links.apple} target="_blank" rel="noopener">Apple Maps</a>
-            <a href={links.google} target="_blank" rel="noopener">Google Maps</a>
-            <a href={links.osm} target="_blank" rel="noopener">OpenStreetMap</a>
-          </p>
-        </div>
       </div>
 
-      <div class="map reveal" data-map data-src={embed} data-title={c.map.iframeTitle}>
-        <div class="map-consent">
-          <svg class="map-art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
-            <rect width="400" height="300" fill="#fcf3ea"/>
-            <g stroke="#f7e4d1" stroke-width="14" fill="none" stroke-linecap="round">
-              <path d="M-20 118 L420 68"/>
-              <path d="M140 -20 L190 320"/>
-              <path d="M300 -20 L260 320"/>
-              <path d="M-20 60 L180 40"/>
-              <path d="M30 320 L110 150"/>
-            </g>
-            <g stroke="#edbc8f" stroke-width="3" fill="none">
-              <path d="M-20 118 L420 68"/>
-            </g>
-            <circle cx="182" cy="96" r="30" fill="#e9ac74" opacity="0.18"/>
-            <path d="M182 56c-12 0-21 9-21 20.5 0 15 21 34.5 21 34.5s21-19.5 21-34.5c0-11.5-9-20.5-21-20.5z" fill="#2e4a5f"/>
-            <circle cx="182" cy="76" r="7" fill="#fcf3ea"/>
-          </svg>
-          <div class="consent-box">
-            <p class="consent-title">{practice.street}, {practice.zip} {practice.city}</p>
-            <p class="consent-text">{c.map.text} <a href={url(t.footer.privacyHref) + '#google-maps'}>{c.map.privacyLink}</a>.</p>
-            <button type="button" class="btn btn--ghost" data-map-load>{c.map.load}</button>
-          </div>
-        </div>
-      </div>
+      <figure class="map reveal">
+        <MapSvg class="map-svg" aria-label={c.mapAlt} />
+        <a class="btn route" href={links.google} data-route
+           data-apple={links.apple} data-geo={links.geo} target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c-3.9 0-7 3-7 6.9 0 5.1 7 12.1 7 12.1s7-7 7-12.1c0-3.9-3.1-6.9-7-6.9z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9.5" r="2.4" fill="currentColor"/></svg>
+          {c.route}
+        </a>
+        <figcaption class="osm">
+          <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">{c.mapCredit}</a>
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -106,6 +76,7 @@ const embed = `https://www.google.com/maps?q=${q}&z=16&output=embed&hl=${lang}`;
   .info { max-width: 30rem; justify-self: end; width: 100%; }
   @media (max-width: 899px) { .info { justify-self: start; max-width: none; } }
   .group { margin-bottom: 2.25rem; }
+  .group:last-child { margin-bottom: 0; }
   .group .block-title { font-size: 0.95rem; margin-bottom: 0.6rem; }
   address { font-style: normal; color: var(--ink); font-size: 1.1rem; line-height: 1.6; margin-bottom: 0.6rem; }
   .phone { margin: 0; }
@@ -128,33 +99,45 @@ const embed = `https://www.google.com/maps?q=${q}&z=16&output=embed&hl=${lang}`;
     text-align: center;
     letter-spacing: 0.03em;
     border-radius: 3px;
+    white-space: nowrap;
   }
   .badge-u { background: #3c7233; }
   .badge-tram { background: #c4161c; }
+  .badge-bus { background: #0d5c6b; }
 
-  .route { margin-top: 0.5rem; }
-  .others { margin: 1rem 0 0; font-size: 0.9rem; color: var(--text-soft); display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; }
-  .others a { color: var(--ink); text-underline-offset: 3px; text-decoration-color: var(--apricot-400); }
-
+  /* Static map with the route button on it */
   .map {
     position: relative;
+    margin: 0;
     min-height: 460px;
-    background: var(--apricot-50);
+    background: #f3eee8;
     overflow: hidden;
   }
-  .map :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-  .map-consent { position: absolute; inset: 0; display: grid; place-items: end center; }
-  .map-art { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .consent-box {
-    position: relative;
-    margin: 1.25rem;
-    padding: 1.25rem 1.4rem;
-    background: color-mix(in srgb, var(--paper) 94%, transparent);
-    max-width: 26rem;
-    text-align: center;
-    box-shadow: 0 18px 40px -26px rgba(46, 74, 95, 0.45);
+  .map :global(.map-svg) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
-  .consent-title { color: var(--ink); margin-bottom: 0.4rem; }
-  .consent-text { font-size: 0.85rem; line-height: 1.5; color: var(--text-soft); }
-  .consent-text a { color: var(--ink); }
+  .route {
+    position: absolute;
+    left: 1.25rem;
+    bottom: 1.25rem;
+    box-shadow: 0 14px 30px -16px rgba(46, 74, 95, 0.8);
+  }
+  .route:hover { background: var(--paper); }
+  .osm {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 0.15rem 0.45rem;
+    background: color-mix(in srgb, #f3eee8 85%, transparent);
+    font-size: 0.68rem;
+    line-height: 1.4;
+  }
+  .osm a { color: #8a8f94; text-decoration: none; }
+  .osm a:hover { text-decoration: underline; }
+  @media (max-width: 899px) {
+    .map { min-height: 0; aspect-ratio: 1 / 1; }
+  }
 </style>

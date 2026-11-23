@@ -337,3 +337,4 @@ button { font: inherit; color: inherit; }
 .legal h3 { font-size: 1rem; font-weight: 500; margin: 1.5rem 0 0.5rem; }
 .legal ul { padding-left: 1.2rem; margin-bottom: 1em; }
 .legal address { font-style: normal; margin-bottom: 1em; }
+.legal .stand { margin-top: 3rem; font-size: 0.9rem; color: var(--text-soft); }

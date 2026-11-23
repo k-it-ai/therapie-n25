@@ -160,9 +160,14 @@ if (hero) {
     stop();
     if (!paused && slides.length > 1) timer = window.setInterval(() => show(index + 1), 5000);
   };
+  // Decide the set from the screen width itself, not from computed styles: those can be
+  // read before the stylesheet has loaded, which made the slideshow cycle through hidden
+  // (blank) desktop photos on phones.
+  const phoneQuery = window.matchMedia('(max-width: 699px)');
   const collect = () => {
-    slides = allSlides.filter((s) => getComputedStyle(s).display !== 'none');
-    dots = allDots.filter((d) => getComputedStyle(d).display !== 'none');
+    const set = phoneQuery.matches ? 'tall' : 'wide';
+    slides = allSlides.filter((s) => s.classList.contains(`slide--${set}`));
+    dots = allDots.filter((d) => d.classList.contains(`dot--${set}`));
     show(0);
     start();
   };
@@ -182,7 +187,7 @@ if (hero) {
   hero.addEventListener('focusin', stop);
   hero.addEventListener('focusout', start);
   document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
-  window.matchMedia('(max-width: 699px)').addEventListener('change', collect);
+  phoneQuery.addEventListener('change', collect);
 
   // Swipe on touch screens
   let x0: number | null = null;
@@ -232,18 +237,13 @@ if (dialog) {
   });
 }
 
-/* ---------- Map: load Google Maps only after consent click ---------- */
-document.querySelectorAll<HTMLElement>('[data-map]').forEach((map) => {
-  map.querySelector('[data-map-load]')?.addEventListener('click', () => {
-    const iframe = document.createElement('iframe');
-    iframe.src = map.dataset.src!;
-    iframe.title = map.dataset.title ?? 'Google Maps';
-    iframe.loading = 'lazy';
-    iframe.referrerPolicy = 'no-referrer-when-downgrade';
-    iframe.allowFullscreen = true;
-    map.querySelector('.map-consent')?.remove();
-    map.append(iframe);
-    iframe.focus();
+/* ---------- Therapieangebot on phones: tap a row to open photo + text ---------- */
+document.querySelectorAll<HTMLButtonElement>('[data-acc-btn]').forEach((btn) => {
+  const panel = document.getElementById(btn.getAttribute('aria-controls')!);
+  btn.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') !== 'true';
+    btn.setAttribute('aria-expanded', String(open));
+    panel?.classList.toggle('is-open', open);
   });
 });
 

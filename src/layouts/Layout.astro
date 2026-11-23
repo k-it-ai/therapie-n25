@@ -67,7 +67,7 @@ const jsonLd = {
     <meta property="og:title" content={title ?? t.meta.title} />
     <meta property="og:description" content={description ?? t.meta.description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL(url('/og-image.jpg'), site).href} />
+    <meta property="og:image" content={new URL(url('/og-therapie-n25.jpg'), site).href} />
     <meta property="og:locale" content={lang === 'de' ? 'de_DE' : 'en_GB'} />
     {home && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <script is:inline>document.documentElement.classList.add('js');</script>

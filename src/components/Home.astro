@@ -14,9 +14,9 @@ const { lang } = Astro.props;
 ---
 <Layout lang={lang} home alternates={{ de: '/', en: '/en/' }}>
   <Hero lang={lang} slot="hero" />
+  <About lang={lang} />
   <Services lang={lang} />
   <Team lang={lang} />
-  <About lang={lang} />
   <Rooms lang={lang} />
   <Contact lang={lang} />
   <CallButton lang={lang} slot="after" />
