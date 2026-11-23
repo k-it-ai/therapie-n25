@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { practice } from '../../i18n/content';
 import { url } from '../../lib/url';
+import KossovItH from '../../assets/kossov-it-h.svg';
 const year = new Date().getFullYear();
 ---
 <Layout lang="de" title="Impressum – Therapie N25" description="Impressum der Praxis Therapie N25, Nymphenburger Straße 191, 80639 München.">
@@ -43,7 +44,11 @@ const year = new Date().getFullYear();
     <p>Paul Vogl, Lorenz Bühler</p>
 
     <h2>Webdesign &amp; Entwicklung</h2>
-    <p><a href="https://kossov.it" rel="noopener" target="_blank">kossov.it</a></p>
+    <p>
+      <a class="kossov" href="https://kossov.it" rel="noopener" target="_blank" aria-label="kossov.it (öffnet in neuem Tab)">
+        <KossovItH aria-hidden="true" />
+      </a>
+    </p>
 
     <p>Copyright © {practice.since} – {year} Therapie N25 München. Alle Rechte vorbehalten.</p>
 
@@ -98,3 +103,15 @@ const year = new Date().getFullYear();
     <p class="stand">Stand: November 2026</p>
   </article>
 </Layout>
+
+<style>
+  .kossov {
+    display: inline-block;
+    color: var(--ink);
+    line-height: 0;
+    opacity: 0.9;
+    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+  }
+  .kossov:hover, .kossov:focus-visible { opacity: 1; transform: translateY(-2px); }
+  .kossov :global(svg) { width: 96px; height: auto; }
+</style>

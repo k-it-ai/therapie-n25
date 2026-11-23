@@ -105,7 +105,7 @@ const firstTall = slides.findIndex((s) => s.set === 'tall');
   .hero-info {
     position: absolute;
     left: 0; right: 0; bottom: 0;
-    padding: 1.6rem var(--gutter) 1.3rem;
+    padding: 1.4rem var(--gutter) 0.9rem;
     text-align: center;
     color: var(--ink);
     background: color-mix(in srgb, var(--apricot-300) 86%, transparent);
@@ -126,23 +126,13 @@ const firstTall = slides.findIndex((s) => s.set === 'tall');
   .hero-info a { text-decoration: none; }
   .hero-info a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-  /* Slide markers sit on the photo, just above the band */
-  .hero-info::before {
-    content: '';
-    position: absolute;
-    left: 0; right: 0; bottom: 100%;
-    height: 5.5rem;
-    background: linear-gradient(to top, rgba(32, 44, 54, 0.32), rgba(32, 44, 54, 0));
-    pointer-events: none;
-  }
+  /* Slide markers: a compact row at the bottom of the band */
   .controls {
-    position: absolute;
-    left: 0; right: 0; bottom: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    padding-bottom: 0.6rem;
+    margin: 0.3rem 0 -0.45rem;
   }
   .dots { display: flex; gap: 0.15rem; }
   .dot {
@@ -157,19 +147,17 @@ const firstTall = slides.findIndex((s) => s.set === 'tall');
   .dot::before {
     content: '';
     width: 18px; height: 2px;
-    background: rgba(255, 255, 255, 0.55);
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
+    background: color-mix(in srgb, var(--ink) 35%, transparent);
     transition: background-color 0.4s var(--ease), width 0.4s var(--ease);
   }
-  .dot[aria-current='true']::before { background: #fff; width: 26px; }
+  .dot[aria-current='true']::before { background: var(--ink); width: 26px; }
   .pause {
     width: 28px; height: 28px;
     display: grid; place-items: center;
     border: 0; background: none; padding: 0;
-    color: #fff; cursor: pointer;
+    color: var(--ink); cursor: pointer;
   }
-  .pause svg { width: 12px; height: 12px; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.35)); }
-  .dot:focus-visible, .pause:focus-visible { outline-color: #fff; }
+  .pause svg { width: 12px; height: 12px; }
   .pause .i-play { display: none; }
   .pause.is-paused .i-play { display: block; }
   .pause.is-paused .i-pause { display: none; }
@@ -193,8 +181,8 @@ const firstTall = slides.findIndex((s) => s.set === 'tall');
       backdrop-filter: none;
       background: var(--apricot-300);
       font-size: 0.78rem;
-      padding-bottom: 1.3rem;
-      padding-bottom: calc(1.3rem + 100lvh - 100svh);
+      padding-bottom: 0.9rem;
+      padding-bottom: calc(0.9rem + 100lvh - 100svh);
     }
   }
 </style>

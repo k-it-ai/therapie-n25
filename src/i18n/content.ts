@@ -27,7 +27,7 @@ export const content = {
     },
     nav: [
       { id: 'ueber-uns', label: 'Wir über uns' },
-      { id: 'therapieangebot', label: 'Therapieangebot' },
+      { id: 'was-wir-tun', label: 'Was wir tun' },
       { id: 'team', label: 'Unser Team' },
       { id: 'praxisraeume', label: 'Praxisräume' },
       { id: 'anfahrt', label: 'Kontakt' },
@@ -190,7 +190,7 @@ export const content = {
       ],
     },
     services: {
-      heading: 'Therapieangebot',
+      heading: 'Was wir tun',
       tagline: 'Die Kernqualifikationen des Praxisteams',
       core: [
         'Physiotherapie im traumatologisch-orthopädischen Bereich',
@@ -213,7 +213,6 @@ export const content = {
             'Krankengymnastik',
             'Manuelle Therapie',
             'Spezielle Massagetechniken',
-            'Lymphdrainagen',
             'Kälte- und Naturfangotherapie',
             'Elektrotherapie',
             'Krankengymnastik am Gerät',
@@ -326,7 +325,7 @@ export const content = {
       privacyHref: '/datenschutz/',
       imprintHref: '/impressum/',
       copyright: 'Copyright',
-      webdesign: 'Webdesign',
+      webdesign: 'Webdesign by',
     },
   },
 
@@ -339,7 +338,7 @@ export const content = {
     },
     nav: [
       { id: 'ueber-uns', label: 'About us' },
-      { id: 'therapieangebot', label: 'Treatments' },
+      { id: 'was-wir-tun', label: 'What we do' },
       { id: 'team', label: 'Our team' },
       { id: 'praxisraeume', label: 'Our rooms' },
       { id: 'anfahrt', label: 'Contact' },
@@ -502,7 +501,7 @@ export const content = {
       ],
     },
     services: {
-      heading: 'Treatments',
+      heading: 'What we do',
       tagline: 'Our team’s core qualifications',
       core: [
         'Physiotherapy for trauma and orthopaedics',
@@ -525,7 +524,6 @@ export const content = {
             'Physiotherapy exercises (Krankengymnastik)',
             'Manual therapy',
             'Special massage techniques',
-            'Lymphatic drainage',
             'Cold and natural fango therapy',
             'Electrotherapy',
             'Exercise therapy on equipment',
@@ -636,7 +634,7 @@ export const content = {
       privacyHref: '/datenschutz/',
       imprintHref: '/impressum/',
       copyright: 'Copyright',
-      webdesign: 'Web design',
+      webdesign: 'Web design by',
     },
   },
 } as const;

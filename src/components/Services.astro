@@ -10,9 +10,9 @@ const { lang } = Astro.props;
 const t = content[lang];
 const s = t.services;
 ---
-<section class="section services" id="therapieangebot" aria-labelledby="therapieangebot-title">
+<section class="section services" id="was-wir-tun" aria-labelledby="was-wir-tun-title">
   <div class="wrap">
-    <SectionHead id="therapieangebot" title={s.heading} tagline={s.tagline} />
+    <SectionHead id="was-wir-tun" title={s.heading} tagline={s.tagline} />
 
     <ul class="core reveal">
       {s.core.map((c) => <li>{c}</li>)}

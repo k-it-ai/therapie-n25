@@ -237,7 +237,7 @@ if (dialog) {
   });
 }
 
-/* ---------- Therapieangebot on phones: tap a row to open photo + text ---------- */
+/* ---------- Was wir tun on phones: tap a row to open photo + text ---------- */
 document.querySelectorAll<HTMLButtonElement>('[data-acc-btn]').forEach((btn) => {
   const panel = document.getElementById(btn.getAttribute('aria-controls')!);
   btn.addEventListener('click', () => {
