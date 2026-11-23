@@ -11,8 +11,7 @@ export const practice = {
   city: 'München',
   phone: '089 / 20 06 20 38',
   phoneHref: 'tel:+498920062038',
-  fax: '089 / 20 06 20 39',
-  email: 'therapie_n25@gmx.de',
+  email: 'kontakt@therapie-n25.de',
   mapsQuery: 'Therapie N25, Nymphenburger Straße 191, 80639 München',
   since: 2010,
 };
@@ -300,7 +299,7 @@ export const content = {
       tagline: 'Wenige Gehminuten vom Rotkreuzplatz',
       addressHeading: 'Adresse',
       phoneLabel: 'Telefon',
-      faxLabel: 'Fax',
+      emailLabel: 'E-Mail',
       hoursHeading: 'Rezeption',
       hoursNote: 'Terminvereinbarung telefonisch von Montag bis Freitag',
       hours: [
@@ -609,7 +608,7 @@ export const content = {
       tagline: 'A few minutes’ walk from Rotkreuzplatz',
       addressHeading: 'Address',
       phoneLabel: 'Phone',
-      faxLabel: 'Fax',
+      emailLabel: 'E-Mail',
       hoursHeading: 'Reception',
       hoursNote: 'Appointments by phone, Monday to Friday',
       hours: [

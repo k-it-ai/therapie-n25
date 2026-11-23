@@ -30,8 +30,8 @@ const links = {
           <p class="phone">
             <span class="k">{c.phoneLabel}</span>
             <a href={practice.phoneHref}>{practice.phone}</a><br />
-            <span class="k">{c.faxLabel}</span>
-            <span>{practice.fax}</span>
+            <span class="k">{c.emailLabel}</span>
+            <a href={`mailto:${practice.email}`}>{practice.email}</a>
           </p>
         </div>
 
@@ -137,7 +137,8 @@ const links = {
   }
   .osm a { color: #8a8f94; text-decoration: none; }
   .osm a:hover { text-decoration: underline; }
+  /* phones/tablets: fixed height (aspect-ratio on a stretched grid item collapses in Safari) */
   @media (max-width: 899px) {
-    .map { min-height: 0; aspect-ratio: 1 / 1; }
+    .map { min-height: 0; height: clamp(340px, 92vw, 560px); align-self: start; }
   }
 </style>
