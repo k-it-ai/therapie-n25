@@ -15,6 +15,7 @@ import xml.etree.ElementTree as ET
 
 PRACTICE = (48.1565809, 11.5303946)   # Nymphenburger Straße 191 (Nominatim)
 UBAHN = (48.153423, 11.53312)         # Rotkreuzplatz (MVG station coordinates)
+NEUHAUSEN = (48.156347, 11.531503)    # tram 12 / bus 144 stop (MVG station coordinates)
 CENTER = ((PRACTICE[0] + UBAHN[0]) / 2 + 0.0004, (PRACTICE[1] + UBAHN[1]) / 2)
 SIZE = 760                            # metres shown; 1 SVG unit = 1 metre
 FONT = 15.5
@@ -113,7 +114,7 @@ def inner_run(points, margin):
     return cur if length(cur) > length(best) else best
 
 
-def main(src, dst):
+def main(src, dst, stops=False):
     root = ET.parse(src).getroot()
     nodes = {n.get('id'): (float(n.get('lat')), float(n.get('lon'))) for n in root.iter('node')}
     streets, greens = [], []
@@ -148,6 +149,7 @@ def main(src, dst):
         if name and hw in LABELLED:
             by_name.setdefault(name, []).append(refs)
     pin = project(*PRACTICE)
+    stop = project(*NEUHAUSEN)
     placed, defs, labels = [], [], []
     for i, (name, chains) in enumerate(sorted(by_name.items())):
         need = len(name) * FONT * 0.56 + 30
@@ -163,7 +165,7 @@ def main(src, dst):
                 if pos - need / 2 < 0 or pos + need / 2 > total:
                     continue
                 mid = point_at(run, pos)
-                if math.dist(mid, pin) < 95 or any(math.dist(mid, p) < 120 for p in placed):
+                if math.dist(mid, pin) < 95 or (stops and math.dist(mid, stop) < 90) or any(math.dist(mid, p) < 120 for p in placed):
                     continue
                 placed.append(mid)
                 defs.append(f'<path id="map-s{i}" d="{fmt(run)}"/>')
@@ -180,6 +182,14 @@ def main(src, dst):
     out.append(f'<g transform="translate({ux:.1f},{uy:.1f})"><rect x="-13" y="-13" width="26" height="26" rx="3" fill="#0065ae"/>'
                '<text x="0" y="7.5" text-anchor="middle" style="font:700 19px system-ui,sans-serif;fill:#fff">U</text>'
                '<text class="map-p" x="20" y="6" style="font-weight:400;fill:#5d6a74">Rotkreuzplatz</text></g>')
+    if stops:
+        sx, sy = stop
+        out.append(f'<g transform="translate({sx:.1f},{sy:.1f})" style="font:700 14px system-ui,sans-serif;fill:#fff">'
+                   '<rect x="-13" y="-11" width="26" height="22" rx="3" fill="#c4161c"/>'
+                   '<text x="0" y="5" text-anchor="middle">12</text>'
+                   '<rect x="16" y="-11" width="36" height="22" rx="3" fill="#0d5c6b"/>'
+                   '<text x="34" y="5" text-anchor="middle">144</text>'
+                   '<text class="map-p" x="58" y="6" style="font-weight:400;fill:#5d6a74">Neuhausen</text></g>')
     # Practice pin
     px, py = pin
     out.append(f'<g transform="translate({px:.1f},{py:.1f})">'
@@ -195,4 +205,4 @@ def main(src, dst):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2], stops='--stops' in sys.argv)
