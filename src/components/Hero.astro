@@ -166,10 +166,8 @@ const number = (i: number) =>
   .pause.is-paused .i-play { display: block; }
   .pause.is-paused .i-pause { display: none; }
 
-  /* Mobile: image on top, info band below it (as in the mockup).
-     The hero reaches the very bottom of the screen (lvh). The band's text stays above the
-     "browser bars shown" line (svh); only the band's colour continues behind Safari's
-     floating bar, so the bar never covers information. */
+  /* Mobile: photo on top, band below. The band's colour reaches the screen bottom (lvh),
+     its text stays above the browser bars (svh). */
   @media (max-width: 699px) {
     .hero {
       height: calc(100vh - var(--header-h));

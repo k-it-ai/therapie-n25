@@ -161,9 +161,7 @@ if (hero) {
     stop();
     if (!paused && slides.length > 1) timer = window.setInterval(() => show(index + 1), 5000);
   };
-  // Decide the set from the screen width itself, not from computed styles: those can be
-  // read before the stylesheet has loaded, which made the slideshow cycle through hidden
-  // (blank) desktop photos on phones.
+  // Pick the set by screen width (computed styles may not be ready yet -> blank slides).
   const phoneQuery = window.matchMedia('(max-width: 699px)');
   const collect = () => {
     const set = phoneQuery.matches ? 'tall' : 'wide';
