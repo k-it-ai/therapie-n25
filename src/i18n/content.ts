@@ -9,7 +9,7 @@ export const practice = {
   street: 'Nymphenburger Straße 191',
   zip: '80639',
   city: 'München',
-  phone: '089 / 20 06 20 38',
+  phone: '089\u00a0/\u00a020\u00a006\u00a020\u00a038', // non-breaking spaces: never splits across lines
   phoneHref: 'tel:+498920062038',
   email: 'kontakt@therapie-n25.de',
   mapsQuery: 'Therapie N25, Nymphenburger Straße 191, 80639 München',
@@ -283,7 +283,7 @@ export const content = {
           title: 'Therapieräume 1–8',
           text: 'Acht helle, ruhige Behandlungsräume mit hohen Decken, großen Fenstern und Parkett. Hier finden die Einzelbehandlungen statt – Physiotherapie, Manuelle Therapie und Osteopathie für alle Altersklassen – in einem geschützten Rahmen, ganz ohne Hektik.',
           features: ['höhenverstellbare Therapieliegen', 'Einzelräume mit Tageslicht', 'Physiotherapie und Osteopathie für alle Altersklassen'],
-          photos: ['therapieraum-erker', 'therapieraum-rot', 'therapieraum-hell', 'therapieraum-bunt'],
+          photos: ['therapieraum-bunt', 'therapieraum-rot', 'therapieraum-hell', 'therapieraum-erker'],
         },
         {
           id: 'trainingsraum',
@@ -594,7 +594,7 @@ export const content = {
           title: 'Treatment rooms 1–8',
           text: 'Eight bright, quiet treatment rooms with high ceilings, large windows and parquet floors. This is where one-to-one treatments take place – physiotherapy, manual therapy and osteopathy for all ages – in a private, unhurried setting.',
           features: ['Height-adjustable treatment tables', 'Private rooms with daylight', 'Physiotherapy and osteopathy for all ages'],
-          photos: ['therapieraum-erker', 'therapieraum-rot', 'therapieraum-hell', 'therapieraum-bunt'],
+          photos: ['therapieraum-bunt', 'therapieraum-rot', 'therapieraum-hell', 'therapieraum-erker'],
         },
         {
           id: 'trainingsraum',

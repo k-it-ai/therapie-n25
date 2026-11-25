@@ -20,7 +20,7 @@ const year = new Date().getFullYear();
     <address>
       <span>{practice.street.toUpperCase()}</span><span class="sep" aria-hidden="true">|</span><span>{practice.zip} {practice.city.toUpperCase()}</span>
       <br />
-      <a href={practice.phoneHref}>TEL. {practice.phone}</a>
+      <a href={practice.phoneHref}>TEL.&nbsp;{practice.phone}</a>
     </address>
     <nav class="legal-links" aria-label={lang === 'de' ? 'Rechtliches' : 'Legal'}>
       <a href={url(t.footer.privacyHref)}>{t.footer.privacy}</a><span class="sep" aria-hidden="true">|</span><a href={url(t.footer.imprintHref)}>{t.footer.imprint}</a>

@@ -161,6 +161,7 @@ button { font: inherit; color: inherit; }
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.2em;
+  text-wrap: balance; /* "SO KOMMEN / SIE ZU UNS" instead of a lone last word */
   /* letter-spacing adds trailing space; compensate so the title stays centred */
   margin-right: -0.2em;
 }
@@ -205,6 +206,7 @@ button { font: inherit; color: inherit; }
 
 .block-title {
   font-size: clamp(1.15rem, 1rem + 0.5vw, 1.4rem);
+  text-wrap: balance;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   font-weight: 450;
