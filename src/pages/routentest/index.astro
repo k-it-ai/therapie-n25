@@ -6,19 +6,21 @@ import { practice } from '../../i18n/content';
 
 const addr = encodeURIComponent(`${practice.street}, ${practice.zip} ${practice.city}`);
 const tests = [
-  { id: 'A', label: 'geo-navigation: Route', href: `geo-navigation:///directions?destination=${addr}` },
-  { id: 'B', label: 'geo-navigation: Ort', href: `geo-navigation:///place?address=${addr}` },
-  { id: 'C', label: 'maps: (Apple)', href: `maps://?daddr=${addr}` },
-  { id: 'D', label: 'geo:', href: `geo:0,0?q=${addr}` },
+  { id: '1', label: 'Route (neuer Weg)', href: `geo-navigation:///directions?destination=${addr}` },
+  { id: '2', label: 'Ort (neuer Weg)', href: `geo-navigation:///place?address=${addr}` },
+  { id: '3', label: 'Apple-Link', href: `maps://?daddr=${addr}` },
+  { id: '4', label: 'Android-Link', href: `geo:0,0?q=${addr}` },
 ];
 ---
 <Layout lang="de" title="Routentest – Therapie N25" description="Interner Test." noindex>
   <article class="legal">
     <h1>Routentest</h1>
-    <p>Bitte jeden Knopf auf dem iPhone antippen und notieren, was passiert:
-      <strong>Google Maps</strong>, <strong>Apple Karten</strong> oder <strong>Fehlermeldung / nichts</strong>.</p>
+    <p>Diese Seite auf dem iPhone öffnen. Dann <strong>Test 1</strong> antippen, notieren, welche App sich öffnet,
+      zurück zu dieser Seite wechseln und mit Test 2, 3 und 4 genauso weitermachen.</p>
+    <p>Mögliche Ergebnisse: <strong>Google Maps</strong>, <strong>Apple Karten</strong> oder
+      <strong>Fehlermeldung / nichts passiert</strong>.</p>
     <ul class="tests">
-      {tests.map((t) => <li><a class="btn" href={t.href}>{t.id} – {t.label}</a></li>)}
+      {tests.map((t) => <li><a class="btn" href={t.href}>Test {t.id} – {t.label}</a></li>)}
     </ul>
   </article>
 </Layout>
