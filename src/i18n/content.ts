@@ -317,7 +317,7 @@ export const content = {
       routeApple: 'Apple Karten',
       routeGoogle: 'Google Maps',
       mapAlt: 'Stadtplan: Therapie N25 an der Nymphenburger Straße 191, mit der Haltestelle Neuhausen (Tram 12, Bus 144) und dem U-Bahnhof Rotkreuzplatz',
-      mapCredit: 'Kartendaten © OpenStreetMap-Mitwirkende',
+      mapCredit: '© OpenStreetMap',
     },
     footer: {
       services: 'Physiotherapie | Osteopathie',
@@ -628,7 +628,7 @@ export const content = {
       routeApple: 'Apple Maps',
       routeGoogle: 'Google Maps',
       mapAlt: 'Street map: Therapie N25 at Nymphenburger Straße 191, with the Neuhausen stop (tram 12, bus 144) and Rotkreuzplatz U-Bahn station',
-      mapCredit: 'Map data © OpenStreetMap contributors',
+      mapCredit: '© OpenStreetMap',
     },
     footer: {
       services: 'Physiotherapy | Osteopathy',

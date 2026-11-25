@@ -92,6 +92,7 @@ for (const room of r.items) {
 
   .gallery { display: grid; gap: 0.75rem; }
   .gallery .frame { display: block; cursor: zoom-in; }
+  /* gallery layout by number of photos (1–4), so a room can gain or lose photos without layout work */
   .count-4 { grid-template-columns: repeat(3, 1fr); }
   .count-4 .frame:first-child { grid-column: 1 / -1; aspect-ratio: 3 / 2; }
   .count-4 .frame:not(:first-child) { aspect-ratio: 3 / 4; }
