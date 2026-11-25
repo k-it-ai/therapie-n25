@@ -1,0 +1,29 @@
+---
+// Temporary test page (not linked, not in the sitemap, noindex): which link types open the
+// visitor's default map app on iPhone/iPad? Delete once the route button is settled.
+import Layout from '../../layouts/Layout.astro';
+import { practice } from '../../i18n/content';
+
+const addr = encodeURIComponent(`${practice.street}, ${practice.zip} ${practice.city}`);
+const tests = [
+  { id: 'A', label: 'geo-navigation: Route', href: `geo-navigation:///directions?destination=${addr}` },
+  { id: 'B', label: 'geo-navigation: Ort', href: `geo-navigation:///place?address=${addr}` },
+  { id: 'C', label: 'maps: (Apple)', href: `maps://?daddr=${addr}` },
+  { id: 'D', label: 'geo:', href: `geo:0,0?q=${addr}` },
+];
+---
+<Layout lang="de" title="Routentest – Therapie N25" description="Interner Test." noindex>
+  <article class="legal">
+    <h1>Routentest</h1>
+    <p>Bitte jeden Knopf auf dem iPhone antippen und notieren, was passiert:
+      <strong>Google Maps</strong>, <strong>Apple Karten</strong> oder <strong>Fehlermeldung / nichts</strong>.</p>
+    <ul class="tests">
+      {tests.map((t) => <li><a class="btn" href={t.href}>{t.id} – {t.label}</a></li>)}
+    </ul>
+  </article>
+</Layout>
+
+<style>
+  .tests { list-style: none; padding: 0 !important; display: grid; gap: 1rem; margin-top: 2rem; }
+  .tests .btn { width: 100%; justify-content: center; text-transform: none; }
+</style>
