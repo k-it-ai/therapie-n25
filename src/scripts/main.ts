@@ -264,16 +264,40 @@ accButtons.forEach((btn) =>
 accQuery.addEventListener('change', syncAccordion);
 syncAccordion();
 
-/* ---------- "Route planen": open the map app that fits the device ---------- */
+/* ---------- "Route planen": open the map app that fits the device ----------
+   Android: geo: opens the default map app. iPhone/iPad: iOS doesn't let a site reach the chosen
+   default app, so a small menu offers Apple Maps or Google Maps. Mac: Apple Maps. Others: Google Maps. */
 document.querySelectorAll<HTMLAnchorElement>('[data-route]').forEach((a) => {
   const ua = navigator.userAgent;
-  const isApple = /iPhone|iPad|iPod|Macintosh/.test(ua);
-  const isAndroid = /Android/.test(ua);
-  if (isAndroid && a.dataset.geo) {
-    // geo: lets Android ask which map app to use
+  // iPadOS reports itself as a Mac; touch support tells them apart
+  const isIOS = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  const menu = a.parentElement?.querySelector<HTMLElement>('[data-route-menu]');
+  if (/Android/.test(ua) && a.dataset.geo) {
     a.href = a.dataset.geo;
     a.removeAttribute('target');
-  } else if (isApple && a.dataset.apple) {
+  } else if (isIOS && menu) {
+    a.setAttribute('aria-haspopup', 'true');
+    a.setAttribute('aria-controls', menu.id);
+    a.setAttribute('aria-expanded', 'false');
+    const toggle = (open: boolean) => {
+      menu.hidden = !open;
+      a.setAttribute('aria-expanded', String(open));
+    };
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      toggle(menu.hidden);
+    });
+    menu.addEventListener('click', () => toggle(false));
+    document.addEventListener('click', (e) => {
+      if (!menu.hidden && !a.parentElement!.contains(e.target as Node)) toggle(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) {
+        toggle(false);
+        a.focus();
+      }
+    });
+  } else if (/Macintosh/.test(ua) && a.dataset.apple) {
     a.href = a.dataset.apple;
   }
 });

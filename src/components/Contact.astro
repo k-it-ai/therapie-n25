@@ -58,11 +58,18 @@ const links = {
 
       <figure class="map reveal">
         <MapSvg class="map-svg" aria-label={c.mapAlt} />
-        <a class="btn route" href={links.google} data-route
-           data-apple={links.apple} data-geo={links.geo} target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c-3.9 0-7 3-7 6.9 0 5.1 7 12.1 7 12.1s7-7 7-12.1c0-3.9-3.1-6.9-7-6.9z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9.5" r="2.4" fill="currentColor"/></svg>
-          {c.route}
-        </a>
+        <div class="route-wrap">
+          <a class="btn route" href={links.google} data-route
+             data-apple={links.apple} data-geo={links.geo} target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c-3.9 0-7 3-7 6.9 0 5.1 7 12.1 7 12.1s7-7 7-12.1c0-3.9-3.1-6.9-7-6.9z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9.5" r="2.4" fill="currentColor"/></svg>
+            {c.route}
+          </a>
+          <!-- iPhone/iPad: a site can't see which map app is the default, so the visitor picks -->
+          <div class="route-menu" id={`route-menu-${lang}`} data-route-menu hidden>
+            <a href={links.apple} target="_blank" rel="noopener">{c.routeApple}</a>
+            <a href={links.google} target="_blank" rel="noopener">{c.routeGoogle}</a>
+          </div>
+        </div>
         <figcaption class="osm">
           <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">{c.mapCredit}</a>
         </figcaption>
@@ -119,13 +126,34 @@ const links = {
     width: 100%;
     height: 100%;
   }
-  .route {
+  .route-wrap {
     position: absolute;
     left: 1.25rem;
     bottom: 1.25rem;
+  }
+  .route { box-shadow: 0 14px 30px -16px rgba(46, 74, 95, 0.8); }
+  .route:hover { background: var(--paper); }
+  .route-menu {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 0.5rem);
+    min-width: 100%;
+    display: grid;
+    background: var(--paper);
     box-shadow: 0 14px 30px -16px rgba(46, 74, 95, 0.8);
   }
-  .route:hover { background: var(--paper); }
+  .route-menu[hidden] { display: none; }
+  .route-menu a {
+    padding: 0.85rem 1.5rem;
+    color: var(--ink);
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .route-menu a + a { border-top: 1px solid var(--apricot-100); }
+  .route-menu a:hover { background: var(--apricot-50); }
   .osm {
     position: absolute;
     right: 0;

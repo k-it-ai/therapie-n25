@@ -12,6 +12,7 @@ import therapieraumBunt from '../assets/photos/therapieraum-bunt.jpg';
 import trainingsraum from '../assets/photos/trainingsraum.jpg';
 import gyrotonic from '../assets/photos/gyrotonic.jpg';
 import fassade from '../assets/photos/fassade.jpg';
+import fassadeQuer from '../assets/photos/fassade-quer.jpg';
 
 type Photo = { src: ImageMetadata; alt: Record<Lang, string>; position?: string };
 
@@ -21,6 +22,13 @@ export const photos = {
     alt: {
       de: 'Jugendstil-Fassade des Hauses Nymphenburger Straße 191 aus dem Jahr 1906',
       en: 'Art Nouveau façade of Nymphenburger Straße 191, built in 1906',
+    },
+  },
+  'fassade-quer': {
+    src: fassadeQuer,
+    alt: {
+      de: 'Jugendstil-Fassade des Hauses Nymphenburger Straße 191 mit der Lachner-Apotheke im Erdgeschoss',
+      en: 'Art Nouveau façade of Nymphenburger Straße 191 with the Lachner pharmacy on the ground floor',
     },
   },
   'empfang-flur': {
