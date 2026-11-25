@@ -8,7 +8,10 @@ const { lang } = Astro.props;
 const t = content[lang];
 const c = t.contact;
 const q = encodeURIComponent(practice.mapsQuery);
+const addr = encodeURIComponent(`${practice.street}, ${practice.zip} ${practice.city}`);
 const links = {
+  // iOS/iPadOS 18.4+: hands the route to the app chosen under Settings › Apps › Default Apps › Navigation
+  geoNav: `geo-navigation:///directions?destination=${addr}`,
   google: `https://www.google.com/maps/dir/?api=1&destination=${q}`,
   apple: `https://maps.apple.com/?daddr=${q}`,
   geo: `geo:0,0?q=${q}`,
@@ -60,11 +63,11 @@ const links = {
         <MapSvg class="map-svg" aria-label={c.mapAlt} />
         <div class="route-wrap">
           <a class="btn route" href={links.google} data-route
-             data-apple={links.apple} data-geo={links.geo} target="_blank" rel="noopener">
+             data-apple={links.apple} data-geo={links.geo} data-geonav={links.geoNav} target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c-3.9 0-7 3-7 6.9 0 5.1 7 12.1 7 12.1s7-7 7-12.1c0-3.9-3.1-6.9-7-6.9z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9.5" r="2.4" fill="currentColor"/></svg>
             {c.route}
           </a>
-          <!-- iPhone/iPad: a site can't see which map app is the default, so the visitor picks -->
+          <!-- older iPhones/iPads (before iOS 18.4): the visitor picks the app -->
           <div class="route-menu" id={`route-menu-${lang}`} data-route-menu hidden>
             <a href={links.apple} target="_blank" rel="noopener">{c.routeApple}</a>
             <a href={links.google} target="_blank" rel="noopener">{c.routeGoogle}</a>

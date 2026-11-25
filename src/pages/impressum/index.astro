@@ -110,8 +110,11 @@ const year = new Date().getFullYear();
     color: var(--ink);
     line-height: 0;
     opacity: 0.9;
-    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+    transition: opacity 0.3s var(--ease);
   }
-  .kossov:hover, .kossov:focus-visible { opacity: 1; transform: translateY(-2px); }
+  .kossov:hover, .kossov:focus-visible { opacity: 1; }
   .kossov :global(svg) { width: 96px; height: auto; }
+  /* on hover the K mark slides towards the wordmark (the mark is drawn rotated: local y = screen x) */
+  .kossov :global(.k) { transition: transform 0.3s var(--ease); }
+  .kossov:hover :global(.k), .kossov:focus-visible :global(.k) { transform: translateY(-4px); }
 </style>

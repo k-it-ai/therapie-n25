@@ -265,15 +265,25 @@ accQuery.addEventListener('change', syncAccordion);
 syncAccordion();
 
 /* ---------- "Route planen": open the map app that fits the device ----------
-   Android: geo: opens the default map app. iPhone/iPad: iOS doesn't let a site reach the chosen
-   default app, so a small menu offers Apple Maps or Google Maps. Mac: Apple Maps. Others: Google Maps. */
+   Android: geo: opens the default map app. iOS/iPadOS 18.4+: geo-navigation: opens the default
+   navigation app (Apple Maps, or e.g. Google Maps where iOS lets people choose). Older iOS: a menu
+   offers Apple Maps or Google Maps. Mac: Apple Maps. Everything else: Google Maps in the browser. */
 document.querySelectorAll<HTMLAnchorElement>('[data-route]').forEach((a) => {
   const ua = navigator.userAgent;
   // iPadOS reports itself as a Mac; touch support tells them apart
   const isIOS = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  // iOS version, or Safari's version where the OS version is frozen (iPad, iOS 26)
+  const version = (re: RegExp) => {
+    const m = ua.match(re);
+    return m ? Number(m[1]) + Number(m[2]) / 100 : 0;
+  };
+  const geoNav = isIOS && Math.max(version(/OS (\d+)_(\d+)/), version(/Version\/(\d+)\.(\d+)/)) >= 18.04;
   const menu = a.parentElement?.querySelector<HTMLElement>('[data-route-menu]');
   if (/Android/.test(ua) && a.dataset.geo) {
     a.href = a.dataset.geo;
+    a.removeAttribute('target');
+  } else if (geoNav && a.dataset.geonav) {
+    a.href = a.dataset.geonav;
     a.removeAttribute('target');
   } else if (isIOS && menu) {
     a.setAttribute('aria-haspopup', 'true');
