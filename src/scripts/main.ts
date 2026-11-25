@@ -270,7 +270,9 @@ syncAccordion();
 /* ---------- "Route planen": open the map app that fits the device ----------
    Android: geo: opens the default map app. iOS/iPadOS 18.4+: geo-navigation: opens the default
    navigation app (Apple Maps, or e.g. Google Maps where iOS lets people choose). Older iOS: a menu
-   offers Apple Maps or Google Maps. Mac: Apple Maps. Everything else: Google Maps in the browser. */
+   offers Apple Maps or Google Maps. Mac: Apple Maps. Everything else: Google Maps in the browser.
+   In-app browsers of social apps may not pass app links on, so they get plain web links: the menu on
+   iPhone/iPad, Google Maps on Android. */
 document.querySelectorAll<HTMLAnchorElement>('[data-route]').forEach((a) => {
   const ua = navigator.userAgent;
   // iPadOS reports itself as a Mac; touch support tells them apart
@@ -281,11 +283,15 @@ document.querySelectorAll<HTMLAnchorElement>('[data-route]').forEach((a) => {
     return m ? Number(m[1]) + Number(m[2]) / 100 : 0;
   };
   const geoNav = isIOS && Math.max(version(/OS (\d+)_(\d+)/), version(/Version\/(\d+)\.(\d+)/)) >= 18.04;
+  // Instagram, Facebook, Messenger, LinkedIn, TikTok
+  const inApp = /Instagram|FBAN|FBAV|LinkedInApp|musical_ly|BytedanceWebview/.test(ua);
   const menu = a.parentElement?.querySelector<HTMLElement>('[data-route-menu]');
-  if (/Android/.test(ua) && a.dataset.geo) {
-    a.href = a.dataset.geo;
-    a.removeAttribute('target');
-  } else if (geoNav && a.dataset.geonav) {
+  if (/Android/.test(ua)) {
+    if (!inApp && a.dataset.geo) {
+      a.href = a.dataset.geo;
+      a.removeAttribute('target');
+    }
+  } else if (geoNav && !inApp && a.dataset.geonav) {
     a.href = a.dataset.geonav;
     a.removeAttribute('target');
   } else if (isIOS && menu) {

@@ -55,4 +55,4 @@ the OpenStreetMap licence (ODbL).
 ## Notes
 - Fonts are self-hosted (no Google Fonts request).
 - No third-party requests: the map is a static image, fonts are self-hosted.
-- "Route planen" opens the default navigation app on iPhone/iPad (iOS 18.4+, `geo-navigation:` link) and Android (`geo:`), Apple Maps on Mac and Google Maps elsewhere; older iPhones/iPads get a small Apple Maps / Google Maps menu.
+- "Route planen" opens the default navigation app on iPhone/iPad (iOS 18.4+, `geo-navigation:` link) and Android (`geo:`), Apple Maps on Mac and Google Maps elsewhere; older iPhones/iPads and the in-app browsers of Instagram, Facebook, Messenger, LinkedIn and TikTok get a small Apple Maps / Google Maps menu (Android in-app browsers: Google Maps).
