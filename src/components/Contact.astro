@@ -157,14 +157,14 @@ const links = {
   }
   .route-menu a + a { border-top: 1px solid var(--apricot-100); }
   @media (hover: hover) { .route-menu a:hover { background: var(--apricot-50); } }
+  /* credit sits on the map itself; a soft halo in the map colour keeps it readable over streets */
   .osm {
     position: absolute;
-    right: 0;
-    bottom: 0;
-    padding: 0.15rem 0.45rem;
-    background: rgba(243, 238, 232, 0.85);
+    right: 0.6rem;
+    bottom: 0.35rem;
     font-size: 0.75rem;
     line-height: 1.4;
+    text-shadow: 0 0 2px #f3eee8, 0 0 4px #f3eee8, 0 0 8px #f3eee8;
   }
   .osm a { color: #8a8f94; text-decoration: none; }
   @media (hover: hover) { .osm a:hover { text-decoration: underline; } }
