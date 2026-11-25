@@ -163,7 +163,7 @@ const langHref = url(alternates ? alternates[otherLang] : t.ui.langSwitch.href);
       align-items: center;
       justify-content: center;
       gap: 2.5rem;
-      padding: var(--header-h) 1.5rem 3rem;
+      padding: var(--header-h) calc(1.5rem + var(--safe-r)) calc(3rem + var(--safe-b)) calc(1.5rem + var(--safe-l));
       background: color-mix(in srgb, var(--apricot-300) 97%, transparent);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
