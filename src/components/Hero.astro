@@ -106,7 +106,8 @@ const number = (i: number) =>
     overflow: hidden;
     background: var(--apricot-100);
   }
-  .slides { position: absolute; inset: -6% 0 0; will-change: transform; }
+  /* no overscan: the parallax only moves the photos down, so nothing above the top edge is ever needed */
+  .slides { position: absolute; inset: 0; will-change: transform; }
   .slide {
     position: absolute;
     inset: 0;
@@ -124,6 +125,8 @@ const number = (i: number) =>
   .slide :global(img) {
     object-fit: cover;
     object-position: var(--pos);
+    /* the slow zoom grows from the top edge, so the top of each photo stays in view */
+    transform-origin: 50% 0;
     transform: scale(1.04);
     transition: transform 7s linear;
   }
