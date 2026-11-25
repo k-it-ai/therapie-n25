@@ -26,7 +26,6 @@ const position = ({ key, pos, posTall }: Slide) => {
   const base = pos ?? ('position' in photos[key] ? photos[key].position : '50% 50%');
   return `--pos:${base};--pos-tall:${posTall ?? base}`;
 };
-// slide number within its own set, for the dot labels
 // art direction: <source> sets per orientation, so only the matching photo is downloaded
 const LANDSCAPE = '(orientation: landscape)';
 const variants = async (key: PhotoKey, widths: number[]) => {
@@ -41,6 +40,7 @@ const art = await Promise.all(slides.map(async (s) => s.landscape && {
   landscape: await variants(s.landscape, [960, 1280, 1920, 2400, 3200]),
   portrait: await variants(s.key, [480, 720, 960, 1280, 1600]),
 }));
+// slide number within its own set, for the dot labels
 const number = (i: number) =>
   slides.slice(0, i + 1).filter((s) => s.set === 'both' || s.set === slides[i].set).length;
 ---
@@ -53,6 +53,7 @@ const number = (i: number) =>
             {art[i].landscape.map((v) => <source media={LANDSCAPE} type={v.type} srcset={v.srcset} sizes="100vw" />)}
             {art[i].portrait.map((v) => <source type={v.type} srcset={v.srcset} sizes="100vw" />)}
             <img src={art[i].portrait[1].src} alt={photos[slide.key].alt[lang]}
+                 width={photos[slide.key].src.width} height={photos[slide.key].src.height}
                  loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'low'}
                  decoding="async" style={position(slide)} />
           </picture>
@@ -130,7 +131,7 @@ const number = (i: number) =>
     transform: scale(1.04);
     transition: transform 7s linear;
   }
-  .slide.is-active :global(img) { transform: scale(1.12); }
+  .slide.is-zoomed :global(img) { transform: scale(1.12); }
   /* the facade follows the screen's orientation, not its width */
   .slide.slide--art img { object-position: var(--pos-tall); }
   @media (orientation: landscape) {

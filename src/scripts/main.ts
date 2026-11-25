@@ -151,6 +151,9 @@ if (hero) {
       const on = s === slides[index];
       s.classList.toggle('is-active', on);
       s.setAttribute('aria-hidden', String(!on));
+      // start the slow zoom a frame later, so the first slide zooms on page load as well
+      if (!on) s.classList.remove('is-zoomed');
+      else requestAnimationFrame(() => requestAnimationFrame(() => s.classList.toggle('is-zoomed', s.classList.contains('is-active'))));
     });
     dots.forEach((d, k) => d.setAttribute('aria-current', String(k === index)));
     const next = slides[(index + 1) % slides.length]?.querySelector('img');
@@ -295,7 +298,7 @@ document.querySelectorAll<HTMLAnchorElement>('[data-route]').forEach((a) => {
     };
     a.addEventListener('click', (e) => {
       e.preventDefault();
-      toggle(menu.hidden);
+      toggle(Boolean(menu.hidden));
     });
     menu.addEventListener('click', () => toggle(false));
     document.addEventListener('click', (e) => {

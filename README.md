@@ -38,7 +38,7 @@ Settings → Pages → Custom domain and point the domain's DNS at GitHub (STRAT
 |---|---|
 | All texts (DE + EN), team, opening hours, address | `src/i18n/content.ts` |
 | Photos (file + alt text) | `src/assets/photos/`, `src/lib/photos.ts` |
-| Hero slideshow photos | `src/components/Hero.astro` (`slides`) |
+| Hero slideshow photos | `src/components/Hero.astro` (`slides`; `landscape` adds a second photo for screens wider than tall) |
 | Room photos | `rooms.items[].photos` in `src/i18n/content.ts` |
 | Social preview image (WhatsApp etc.) | `public/og-therapie-n25.jpg` |
 | Colours, fonts, spacing | `src/styles/global.css` (`:root`) |
@@ -55,4 +55,4 @@ the OpenStreetMap licence (ODbL).
 ## Notes
 - Fonts are self-hosted (no Google Fonts request).
 - No third-party requests: the map is a static image, fonts are self-hosted.
-- "Route planen" opens Apple Maps on Apple devices, the app chooser on Android and Google Maps elsewhere.
+- "Route planen" opens the default navigation app on iPhone/iPad (iOS 18.4+, `geo-navigation:` link) and Android (`geo:`), Apple Maps on Mac and Google Maps elsewhere; older iPhones/iPads get a small Apple Maps / Google Maps menu.
