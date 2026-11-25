@@ -137,7 +137,7 @@ if (hero) {
   const allSlides = [...hero.querySelectorAll<HTMLElement>('[data-slide]')];
   const allDots = [...hero.querySelectorAll<HTMLButtonElement>('[data-dot]')];
   const pauseBtn = hero.querySelector<HTMLButtonElement>('[data-pause]');
-  // Wide screens and phones use different photo sets; only cycle the visible one.
+  // Wide and upright screens use different photo sets; only cycle the visible one.
   let slides: HTMLElement[] = [];
   let dots: HTMLButtonElement[] = [];
   let index = 0;
@@ -164,12 +164,15 @@ if (hero) {
     stop();
     if (!paused && slides.length > 1) timer = window.setInterval(() => show(index + 1), 5000);
   };
-  // Pick the set by screen width (computed styles may not be ready yet -> blank slides).
-  const phoneQuery = window.matchMedia('(max-width: 699px)');
+  // Pick the set by screen shape, like the CSS (computed styles may not be ready yet -> blank slides).
+  const portraitQuery = window.matchMedia('(orientation: portrait)');
+  const dotLabel = hero.querySelector('.dots')?.getAttribute('aria-label') ?? '';
   const collect = () => {
-    const set = phoneQuery.matches ? 'tall' : 'wide';
+    const set = portraitQuery.matches ? 'tall' : 'wide';
     slides = allSlides.filter((s) => s.matches(`.slide--both, .slide--${set}`));
     dots = allDots.filter((d) => d.matches(`.dot--both, .dot--${set}`));
+    // shared slides sit at different positions in the two sets
+    dots.forEach((d, k) => d.setAttribute('aria-label', `${dotLabel} ${k + 1}`));
     show(0);
     start();
   };
@@ -189,7 +192,7 @@ if (hero) {
   hero.addEventListener('focusin', stop);
   hero.addEventListener('focusout', start);
   document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
-  phoneQuery.addEventListener('change', collect);
+  portraitQuery.addEventListener('change', collect);
   if (paused) {
     pauseBtn?.classList.add('is-paused');
     pauseBtn?.setAttribute('aria-label', pauseBtn.dataset.labelPlay ?? '');

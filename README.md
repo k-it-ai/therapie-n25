@@ -38,7 +38,7 @@ Settings → Pages → Custom domain and point the domain's DNS at GitHub (STRAT
 |---|---|
 | All texts (DE + EN), team, opening hours, address | `src/i18n/content.ts` |
 | Photos (file + alt text) | `src/assets/photos/`, `src/lib/photos.ts` |
-| Hero slideshow photos | `src/components/Hero.astro` (`slides`; `landscape` adds a second photo for screens wider than tall) |
+| Hero slideshow photos | `src/components/Hero.astro` (`slides`: `set` 'wide' = screens wider than tall, 'tall' = upright screens, 'both' = both; `landscape` adds a second photo of the same subject for wide screens) |
 | Room photos | `rooms.items[].photos` in `src/i18n/content.ts` |
 | Social preview image (WhatsApp etc.) | `public/og-therapie-n25.jpg` |
 | Colours, fonts, spacing | `src/styles/global.css` (`:root`) |

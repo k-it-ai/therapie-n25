@@ -7,21 +7,25 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = content[lang];
 
-// Wide screens show landscape photos, phones portrait ones; the facade opens both.
-// `pos` / `posTall` override the photo's default crop on wide screens / phones.
+// Screens wider than tall show the 'wide' set, upright screens (phones, upright tablets) the 'tall' set;
+// 'both' slides belong to both sets. Turning the device switches the set.
+// `pos` / `posTall` override the photo's default crop on wide / upright screens.
 // `landscape`: a second photo of the same subject for screens wider than tall (the browser loads only one).
 type Slide = { key: PhotoKey; set: 'both' | 'wide' | 'tall'; pos?: string; posTall?: string; landscape?: PhotoKey };
 const slides: Slide[] = [
   { key: 'fassade', landscape: 'fassade-quer', set: 'both', pos: '50% 0%', posTall: '50% 30%' },
   { key: 'empfang', set: 'wide' },
-  { key: 'therapieraum-bunt', set: 'wide' },
-  { key: 'trainingsraum', set: 'wide' },
-  { key: 'empfang-flur', set: 'wide' },
   { key: 'therapieraum-hell', set: 'tall' },
+  { key: 'therapieraum-bunt', set: 'both' },
   { key: 'therapieraum-erker', set: 'tall' },
+  { key: 'trainingsraum', set: 'both' },
   { key: 'wartebereich', set: 'tall' },
+  { key: 'empfang-flur', set: 'wide' },
   { key: 'gyrotonic', set: 'tall' },
 ];
+// upright screens: landscape photos fill the height, so they are drawn about twice the screen width
+const sizes = (key: PhotoKey) =>
+  photos[key].src.width > photos[key].src.height ? '(orientation: portrait) 200vw, 100vw' : '100vw';
 const position = ({ key, pos, posTall }: Slide) => {
   const base = pos ?? ('position' in photos[key] ? photos[key].position : '50% 50%');
   return `--pos:${base};--pos-tall:${posTall ?? base}`;
@@ -40,14 +44,16 @@ const art = await Promise.all(slides.map(async (s) => s.landscape && {
   landscape: await variants(s.landscape, [960, 1280, 1920, 2400, 3200]),
   portrait: await variants(s.key, [480, 720, 960, 1280, 1600]),
 }));
-// slide number within its own set, for the dot labels
-const number = (i: number) =>
-  slides.slice(0, i + 1).filter((s) => s.set === 'both' || s.set === slides[i].set).length;
+// dot labels: position within the wide set ('tall' slides: within the tall set); the script relabels on rotation
+const number = (i: number) => {
+  const set = slides[i].set === 'tall' ? 'tall' : 'wide';
+  return slides.slice(0, i + 1).filter((s) => s.set === 'both' || s.set === set).length;
+};
 ---
 <section class="hero" id="top" aria-roledescription="carousel" aria-label={t.hero.srTitle} data-carousel>
   <div class="slides" data-parallax-hero>
     {slides.map((slide, i) => (
-      <div class={`slide slide--${slide.set}${art[i] ? ' slide--art' : ''}${i === 0 ? ' is-active' : ''}`} data-slide aria-hidden={i === 0 ? 'false' : 'true'}>
+      <div class={`slide slide--${slide.set}${i === 0 ? ' is-active' : ''}`} data-slide aria-hidden={i === 0 ? 'false' : 'true'}>
         {art[i] ? (
           <picture>
             {art[i].landscape.map((v) => <source media={LANDSCAPE} type={v.type} srcset={v.srcset} sizes="100vw" />)}
@@ -60,8 +66,8 @@ const number = (i: number) =>
         ) : <Picture
           src={photos[slide.key].src}
           alt={photos[slide.key].alt[lang]}
-          widths={slide.set === 'tall' ? [480, 720, 960, 1280, 1600] : [960, 1280, 1920, 2400, 3200]}
-          sizes="100vw"
+          widths={slide.set === 'tall' ? [480, 720, 960, 1280, 1600, 2133] : [960, 1280, 1920, 2400, 3200]}
+          sizes={sizes(slide.key)}
           formats={['avif', 'webp']}
           loading={i === 0 ? 'eager' : 'lazy'}
           fetchpriority={i === 0 ? 'high' : 'low'}
@@ -117,10 +123,10 @@ const number = (i: number) =>
   }
   .slide.is-active { opacity: 1; }
   .slide--tall, .dot.dot--tall { display: none; }
-  @media (max-width: 699px) {
-    .slide--tall, .dot.dot--tall { display: block; }
-    .slide--wide, .dot.dot--wide { display: none; }
+  @media (orientation: portrait) {
+    .slide--tall { display: block; }
     .dot.dot--tall { display: grid; }
+    .slide--wide, .dot.dot--wide { display: none; }
   }
   .slide :global(picture), .slide :global(img) { width: 100%; height: 100%; }
   .slide :global(img) {
@@ -132,10 +138,8 @@ const number = (i: number) =>
     transition: transform 7s linear;
   }
   .slide.is-zoomed :global(img) { transform: scale(1.12); }
-  /* the facade follows the screen's orientation, not its width */
-  .slide.slide--art img { object-position: var(--pos-tall); }
-  @media (orientation: landscape) {
-    .slide.slide--art img { object-position: var(--pos); }
+  @media (orientation: portrait) {
+    .slide :global(img) { object-position: var(--pos-tall); }
   }
 
   .hero-info {
@@ -210,7 +214,6 @@ const number = (i: number) =>
       flex-direction: column;
     }
     .slides { position: relative; inset: auto; flex: 1; min-height: 0; }
-    .slide :global(img) { object-position: var(--pos-tall); }
     .hero-info {
       position: relative;
       backdrop-filter: none;
