@@ -61,7 +61,7 @@ const year = new Date().getFullYear();
   .services { text-transform: uppercase; margin: 0; }
   address { font-style: normal; text-transform: uppercase; }
   a { text-decoration: none; }
-  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  @media (hover: hover) { a:hover { text-decoration: underline; text-underline-offset: 3px; } }
   .legal-links { text-transform: uppercase; margin-top: 0.4rem; }
   .sep { display: inline-block; margin: 0 0.6rem; opacity: 0.6; }
   .copy { margin: 0.4rem 0 0; text-wrap: balance; }
@@ -86,7 +86,8 @@ const year = new Date().getFullYear();
     opacity: 0.55;
   }
   .credit a { display: block; line-height: 0; opacity: 0.9; transition: opacity 0.3s var(--ease), transform 0.3s var(--ease); }
-  .credit a:hover, .credit a:focus-visible { opacity: 1; transform: translateY(-2px); text-decoration: none; }
+  .credit a:focus-visible { opacity: 1; transform: translateY(-2px); text-decoration: none; }
+  @media (hover: hover) { .credit a:hover { opacity: 1; transform: translateY(-2px); text-decoration: none; } }
   .credit--v :global(svg) { width: 26px; height: auto; }
 
   .credit--h { display: none; }
@@ -97,7 +98,7 @@ const year = new Date().getFullYear();
       display: block;
       margin: 0 var(--gutter);
       padding: 1.25rem 0 calc(1.5rem + var(--safe-b));
-      border-top: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
+      border-top: 1px solid rgba(46, 74, 95, 0.3);
       color: var(--ink);
     }
     .credit--h a {

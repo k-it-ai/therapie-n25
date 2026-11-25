@@ -22,6 +22,7 @@
   --safe-l: env(safe-area-inset-left, 0px);
   --safe-r: env(safe-area-inset-right, 0px);
   --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
   --gutter: max(clamp(1rem, 4vw, 2rem), calc(var(--safe-l) + 1rem), calc(var(--safe-r) + 1rem));
   --col-gap: clamp(3rem, 8vw, 7.5rem);
   --section-space: clamp(5rem, 11vw, 9rem);
@@ -39,7 +40,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--header-h) + 1rem);
+  scroll-padding-top: calc(var(--header-h) + var(--safe-t) + 1rem);
   -webkit-text-size-adjust: 100%;
   interpolate-size: allow-keywords;
 }
@@ -83,7 +84,7 @@ button { font: inherit; color: inherit; }
 
 .skip-link {
   position: absolute;
-  left: 1rem; top: -4rem;
+  left: calc(1rem + var(--safe-l)); top: -4rem;
   z-index: 200;
   padding: 0.6rem 1rem;
   background: var(--ink);
@@ -106,7 +107,7 @@ button { font: inherit; color: inherit; }
   left: 50%;
   width: 1px;
   margin-left: -0.5px;
-  background: color-mix(in srgb, var(--line) 28%, transparent);
+  background: rgba(233, 172, 116, 0.28);
   pointer-events: none;
   z-index: 0;
 }
@@ -263,7 +264,7 @@ button { font: inherit; color: inherit; }
   cursor: pointer;
   transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
 }
-.btn:hover { background: transparent; color: var(--ink); }
+@media (hover: hover) { .btn:hover { background: transparent; color: var(--ink); } }
 .btn svg { width: 1.1em; height: 1.1em; flex: none; }
 
 

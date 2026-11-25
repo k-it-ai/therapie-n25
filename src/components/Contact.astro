@@ -135,7 +135,7 @@ const links = {
     bottom: 1.25rem;
   }
   .route { box-shadow: 0 14px 30px -16px rgba(46, 74, 95, 0.8); }
-  .route:hover { background: var(--paper); }
+  @media (hover: hover) { .route:hover { background: var(--paper); } }
   .route-menu {
     position: absolute;
     left: 0;
@@ -156,18 +156,18 @@ const links = {
     white-space: nowrap;
   }
   .route-menu a + a { border-top: 1px solid var(--apricot-100); }
-  .route-menu a:hover { background: var(--apricot-50); }
+  @media (hover: hover) { .route-menu a:hover { background: var(--apricot-50); } }
   .osm {
     position: absolute;
     right: 0;
     bottom: 0;
     padding: 0.15rem 0.45rem;
-    background: color-mix(in srgb, #f3eee8 85%, transparent);
-    font-size: 0.68rem;
+    background: rgba(243, 238, 232, 0.85);
+    font-size: 0.75rem;
     line-height: 1.4;
   }
   .osm a { color: #8a8f94; text-decoration: none; }
-  .osm a:hover { text-decoration: underline; }
+  @media (hover: hover) { .osm a:hover { text-decoration: underline; } }
   /* phones/tablets: fixed height (aspect-ratio on a stretched grid item collapses in Safari) */
   @media (max-width: 899px) {
     .map { min-height: 0; height: clamp(340px, 92vw, 560px); align-self: start; }

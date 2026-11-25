@@ -107,7 +107,7 @@ const number = (i: number) => {
   .hero {
     position: relative;
     z-index: 2;
-    height: calc(100svh - var(--header-h));
+    height: calc(100svh - var(--header-h) - var(--safe-t));
     min-height: 520px;
     max-height: 1100px;
     overflow: hidden;
@@ -148,6 +148,7 @@ const number = (i: number) => {
     padding: 1.4rem var(--gutter) 0.9rem;
     text-align: center;
     color: var(--ink);
+    background: var(--apricot-300);
     background: color-mix(in srgb, var(--apricot-300) 86%, transparent);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -164,7 +165,7 @@ const number = (i: number) => {
   }
   .hero-info p { margin: 0; }
   .hero-info a { text-decoration: none; }
-  .hero-info a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  @media (hover: hover) { .hero-info a:hover { text-decoration: underline; text-underline-offset: 3px; } }
 
   /* Slide markers: a compact row at the bottom of the band */
   .controls {
@@ -187,10 +188,14 @@ const number = (i: number) => {
   .dot::before {
     content: '';
     width: 18px; height: 2px;
-    background: color-mix(in srgb, var(--ink) 35%, transparent);
+    background: rgba(46, 74, 95, 0.35);
     transition: background-color 0.4s var(--ease), width 0.4s var(--ease);
   }
   .dot[aria-current='true']::before { background: var(--ink); width: 26px; }
+  @media (forced-colors: active) {
+    .dot::before { background: CanvasText; }
+    .dot[aria-current='true']::before { background: Highlight; }
+  }
   .pause {
     width: 28px; height: 28px;
     display: grid; place-items: center;
@@ -207,7 +212,7 @@ const number = (i: number) => {
   @media (max-width: 699px) {
     .hero {
       height: calc(100vh - var(--header-h));
-      height: calc(100lvh - var(--header-h));
+      height: calc(100lvh - var(--header-h) - var(--safe-t));
       min-height: 480px;
       max-height: none;
       display: flex;

@@ -33,7 +33,7 @@ const t = content[Astro.props.lang];
   }
   .call.is-visible { opacity: 1; transform: none; pointer-events: auto; }
   :global(html.menu-open) .call { opacity: 0; pointer-events: none; }
-  .call:hover { background: #24394a; }
+  @media (hover: hover) { .call:hover { background: #24394a; } }
   .call svg { width: 18px; height: 18px; }
   @media (max-width: 599px) {
     .call { width: 56px; height: 56px; padding: 0; justify-content: center; }

@@ -45,6 +45,7 @@ const langHref = url(alternates ? alternates[otherLang] : t.ui.langSwitch.href);
     position: sticky;
     top: 0;
     z-index: 100;
+    padding-top: var(--safe-t);
     transition: box-shadow 0.4s var(--ease);
   }
   /* The blurred band lives on a pseudo-element: a backdrop-filter on the header itself
@@ -54,6 +55,7 @@ const langHref = url(alternates ? alternates[otherLang] : t.ui.langSwitch.href);
     position: absolute;
     inset: 0;
     z-index: -1;
+    background: var(--apricot-300);
     background: color-mix(in srgb, var(--apricot-300) 94%, transparent);
     backdrop-filter: saturate(1.2) blur(10px);
     -webkit-backdrop-filter: saturate(1.2) blur(10px);
@@ -106,16 +108,17 @@ const langHref = url(alternates ? alternates[otherLang] : t.ui.langSwitch.href);
       transform-origin: left;
       transition: transform 0.4s var(--ease);
     }
-    .nav-list a:hover::after,
     .nav-list a[aria-current='true']::after { transform: scaleX(1); }
+    @media (hover: hover) { .nav-list a:hover::after { transform: scaleX(1); } }
     .lang {
       padding: 0.3rem 0.55rem;
-      border: 1px solid color-mix(in srgb, var(--ink) 45%, transparent);
+      border: 1px solid rgba(46, 74, 95, 0.45);
       font-size: 0.78rem;
       letter-spacing: 0.12em;
     }
     /* .nav .lang: must beat `.nav a` (which sets the ink text colour) */
-    .nav .lang:hover, .nav .lang:focus-visible { background: var(--ink); color: #fff; }
+    .nav .lang:focus-visible { background: var(--ink); color: #fff; }
+    @media (hover: hover) { .nav .lang:hover { background: var(--ink); color: #fff; } }
     .lang-long {
       position: absolute;
       width: 1px; height: 1px;
@@ -147,6 +150,7 @@ const langHref = url(alternates ? alternates[otherLang] : t.ui.langSwitch.href);
       border-radius: 2px;
       transition: transform 0.4s var(--ease), opacity 0.3s var(--ease), top 0.4s var(--ease);
     }
+    @media (forced-colors: active) { .burger-lines span { background: CanvasText; } }
     .burger-lines span:nth-child(1) { top: 0; }
     .burger-lines span:nth-child(2) { top: 8px; }
     .burger-lines span:nth-child(3) { top: 16px; }
@@ -163,7 +167,8 @@ const langHref = url(alternates ? alternates[otherLang] : t.ui.langSwitch.href);
       align-items: center;
       justify-content: center;
       gap: 2.5rem;
-      padding: var(--header-h) calc(1.5rem + var(--safe-r)) calc(3rem + var(--safe-b)) calc(1.5rem + var(--safe-l));
+      padding: calc(var(--header-h) + var(--safe-t)) calc(1.5rem + var(--safe-r)) calc(3rem + var(--safe-b)) calc(1.5rem + var(--safe-l));
+      background: var(--apricot-300);
       background: color-mix(in srgb, var(--apricot-300) 97%, transparent);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -178,8 +183,16 @@ const langHref = url(alternates ? alternates[otherLang] : t.ui.langSwitch.href);
     }
     .nav-list { flex-direction: column; align-items: center; gap: 1.1rem; }
     .nav-list a, .lang { display: block; font-size: 1.15rem; padding: 0.35rem 0.5rem; }
-    .lang { font-size: 0.95rem; border-top: 1px solid color-mix(in srgb, var(--ink) 30%, transparent); padding-top: 1.5rem; }
+    .lang { font-size: 0.95rem; border-top: 1px solid rgba(46, 74, 95, 0.3); padding-top: 1.5rem; }
     .lang-short { display: none; }
+    /* phones held sideways: the menu must fit the short screen (and may scroll as a last resort) */
+    .nav { overflow-y: auto; }
+    @media (max-height: 520px) {
+      .nav { gap: 0.9rem; padding-bottom: calc(1rem + var(--safe-b)); }
+      .nav-list { gap: 0.1rem; }
+      .nav-list a { font-size: 1rem; padding: 0.2rem 0.5rem; }
+      .lang { padding-top: 0.7rem; }
+    }
 
     .nav li, .lang {
       opacity: 0;
