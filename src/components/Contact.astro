@@ -36,6 +36,7 @@ const links = {
             <span class="k">{c.emailLabel}</span>
             <a href={`mailto:${practice.email}`}>{practice.email}</a>
           </p>
+          <p class="note email-note">{c.emailNote}</p>
         </div>
 
         <div class="group">
@@ -90,6 +91,7 @@ const links = {
   .group .block-title { font-size: 0.95rem; margin-bottom: 0.6rem; }
   address { font-style: normal; color: var(--ink); font-size: 1.1rem; line-height: 1.6; margin-bottom: 0.6rem; }
   .phone { margin: 0; }
+  .email-note { margin-top: 0.4rem; }
   .k { display: inline-block; min-width: 5.5rem; color: var(--text-soft); }
   .phone a { color: var(--ink); font-size: 1.1rem; text-decoration-color: var(--apricot-400); text-underline-offset: 4px; }
 

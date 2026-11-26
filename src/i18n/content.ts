@@ -11,7 +11,7 @@ export const practice = {
   city: 'München',
   phone: '089\u00a0/\u00a020\u00a006\u00a020\u00a038', // non-breaking spaces: never splits across lines
   phoneHref: 'tel:+498920062038',
-  email: 'kontakt@therapie-n25.de',
+  email: 'impressum@therapie-n25.de', // website enquiries only – appointments by phone
   mapsQuery: 'Therapie N25, Nymphenburger Straße 191, 80639 München',
   since: 2010,
 };
@@ -58,8 +58,8 @@ export const content = {
       heading: 'Wir über uns',
       tagline: 'Therapie ist Vertrauenssache.',
       paragraphs: [
-        'Oberste Priorität hat die schnelle, effektive und nachhaltige Wiederherstellung der vollen Leistungsfähigkeit des Patienten auf Grundlage eines ganzheitlichen Ansatzes.',
-        'Eine der wesentlichen Grundvoraussetzungen hierfür sind sehr gut ausgebildete Therapeuten mit mehrjähriger Berufsausübung, die im Team und in enger Abstimmung mit dem behandelnden Arzt kompetent und zuverlässig auf hohem Niveau agieren.',
+        'Oberste Priorität hat die schnelle, effektive und nachhaltige Wiederherstellung der vollen Leistungsfähigkeit der Patient*innen auf Grundlage eines ganzheitlichen Ansatzes.',
+        'Eine der wesentlichen Grundvoraussetzungen hierfür sind sehr gut ausgebildete Therapeut*innen mit mehrjähriger Berufsausübung, die im Team und in enger Abstimmung mit dem/der behandelnden Arzt/Ärztin kompetent und zuverlässig auf hohem Niveau agieren.',
         'Permanente Weiterqualifizierung und Flexibilität sind grundlegende Bausteine einer modernen, serviceorientierten Praxis.',
       ],
       quote: 'Ganzheitliche Therapie braucht ein gutes Bauchgefühl.',
@@ -132,7 +132,7 @@ export const content = {
             'funktionelle dreidimensionale manuelle Fußtherapie auf neurophysiologischer Grundlage nach Zukunft-Huber',
             'Yogalehrerin',
             'Ayurvedatherapeutin',
-            'kleiner Heilpraktiker',
+            'kleine Heilpraktikerin',
           ],
         },
         {
@@ -202,10 +202,10 @@ export const content = {
         {
           id: 'physiotherapie',
           title: 'Physiotherapie',
-          subtitle: 'frühfunktionell und in Abstimmung mit Ihrem Arzt',
+          subtitle: 'frühfunktionell und in Abstimmung mit Ihrem Arzt/Ihrer Ärztin',
           photo: 'therapieraum-erker',
           intro: [
-            'Alle konservativ wie operativ versorgten Verletzungen des Bewegungsapparates werden mit einem modernen Konzept der frühfunktionellen Behandlung in engem Kontakt mit dem behandelnden Arzt bis zur vollen Rekonvaleszenz berufsbegleitend behandelt.',
+            'Alle konservativ wie operativ versorgten Verletzungen des Bewegungsapparates werden mit einem modernen Konzept der frühfunktionellen Behandlung in engem Kontakt mit dem/der behandelnden Arzt/Ärztin bis zur vollen Rekonvaleszenz berufsbegleitend behandelt.',
             'Alle hierfür notwendigen Maßnahmen und Hilfsmittel kommen zum Einsatz:',
           ],
           list: [
@@ -221,18 +221,18 @@ export const content = {
         {
           id: 'osteopathie',
           title: 'Osteopathie',
-          subtitle: 'für Patienten jeden Alters',
+          subtitle: 'für Patient*innen jeden Alters',
           photo: 'therapieraum-hell',
           intro: [
             'Osteopathie ist ein ganzheitliches, naturheilkundlich medizinisches Konzept. Die osteopathische Medizin dient vorwiegend der Erkennung und Behandlung von Funktionsstörungen, die mit Bewegungseinschränkungen einhergehen.',
-            'Die Aufgabe des Osteopathen ist es, die Ursachen zu suchen und die Selbstheilungskräfte des Patienten zu aktivieren.',
+            'Die Aufgabe der Osteopath*innen ist es, die Ursachen zu suchen und die Selbstheilungskräfte der Patient*innen zu aktivieren.',
           ],
           list: [],
           more: [
             'Diagnostik und Therapie erfolgen mit spezifischen osteopathischen Techniken, deren Anwendung genaue Kenntnisse der Anatomie (Körperlehre), Physiologie (Lehre von den physikalischen und biochemischen Funktionen von Lebewesen), Neurologie, Pathologie (Krankheitslehre) und Biomechanik (Funktionen und Strukturen des Bewegungsapparates) voraussetzt.',
             'Unser Körper stimmt alle lebensnotwendigen Funktionen in ständiger Wechselwirkung aufeinander ab. Zu diesen Funktionen gehören die unwillkürliche Arbeit unseres Verdauungstrakts, die Strömung unserer Körperflüssigkeiten (arteriell, venös, lymphatisch), die rhythmische Atembewegung und nicht zuletzt die Bewegung der Muskulatur, der Gelenke und die Elastizität der verbindenden Gewebe.',
             'Werden Bewegungen einzelner Körperstrukturen eingeschränkt, beeinflusst das deren Funktion und die Beziehung zu Nachbarstrukturen. Dabei signalisiert uns der Körper eine Funktionsstörung nicht immer durch Schmerzen oder andere Beschwerden. Da unser Organismus sehr anpassungsfähig ist, kann so manche Störung geraume Zeit kompensiert werden, bis oft eine kleine Fehlbewegung akute Beschwerden auslösen kann.',
-            'Eine Gleichwertigkeit der drei großen osteopathischen Säulen ist dabei Erfolgsgrundlage. Das parietale (Gelenke und Skelettmuskulatur), viscerale (alle Organe und verbindenden Gewebsstrukturen) und craniosacrale (Schädel und alle verbindenden Strukturen bis zum Steißbein) System bestens zu kennen und für jeden Patienten individuell zu „kombinieren“, ist unsere tägliche Herausforderung, der wir uns zusammen mit Patienten jeden Alters gerne stellen.',
+            'Eine Gleichwertigkeit der drei großen osteopathischen Säulen ist dabei Erfolgsgrundlage. Das parietale (Gelenke und Skelettmuskulatur), viscerale (alle Organe und verbindenden Gewebsstrukturen) und craniosacrale (Schädel und alle verbindenden Strukturen bis zum Steißbein) System bestens zu kennen und für alle Patient*innen individuell zu „kombinieren“, ist unsere tägliche Herausforderung, der wir uns zusammen mit Patient*innen jeden Alters gerne stellen.',
           ],
         },
         {
@@ -253,7 +253,7 @@ export const content = {
             'Kraft, Koordination, Beweglichkeit und Ausdauer zu festigen',
             'die Belastbarkeit des Herz-Kreislauf-Systems auszubauen.',
           ],
-          outro: 'Unter Berücksichtigung Ihrer medizinischen Befunde wollen wir in enger Abstimmung mit dem betreuenden Arzt mit Ihnen neue Möglichkeiten erarbeiten. Ihre Lebensqualität ist uns wichtig.',
+          outro: 'Unter Berücksichtigung Ihrer medizinischen Befunde wollen wir in enger Abstimmung mit dem/der betreuenden Arzt/Ärztin mit Ihnen neue Möglichkeiten erarbeiten. Ihre Lebensqualität ist uns wichtig.',
           more: [],
         },
         {
@@ -300,6 +300,7 @@ export const content = {
       addressHeading: 'Adresse',
       phoneLabel: 'Telefon',
       emailLabel: 'E-Mail',
+      emailNote: 'Nur für Fragen zur Website – nicht für Terminanfragen oder -absagen. Termine bitte telefonisch.',
       hoursHeading: 'Rezeption',
       hoursNote: 'Terminvereinbarung telefonisch von Montag bis Freitag',
       hours: [
@@ -611,6 +612,7 @@ export const content = {
       addressHeading: 'Address',
       phoneLabel: 'Phone',
       emailLabel: 'E-Mail',
+      emailNote: 'For questions about this website only – not for booking or cancelling appointments. Please call us for appointments.',
       hoursHeading: 'Reception',
       hoursNote: 'Appointments by phone, Monday to Friday',
       hours: [
