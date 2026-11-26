@@ -10,15 +10,32 @@ npm install
 npm run dev        # http://localhost:4321
 ```
 
-## Build & upload to STRATO
+## Live site on STRATO
 
-```bash
-npm run build      # writes the finished site to dist/
-```
+The live site runs on the STRATO web space in the folder `/web` (the domain points there in the STRATO login).
+It is published by hand from GitHub:
 
-Upload the **contents** of `dist/` (not the folder itself) into the web root of the STRATO package via SFTP
-(e.g. FileZilla or Cyberduck; host and login are in the STRATO customer area under *SFTP*).
-Replace the old files. No server-side software is needed.
+**GitHub → Actions → "Deploy live site to STRATO" → Run workflow.**
+
+The workflow (`.github/workflows/deploy-strato.yml`) builds the site for `https://www.therapie-n25.de` and uploads
+it with `scripts/deploy-sftp.sh`. It needs, under Settings → Secrets and variables → Actions:
+
+| Kind | Name | Value |
+|---|---|---|
+| Secret | `STRATO_SFTP_HOST` | SFTP server from the STRATO login, without port (port 22 is used) |
+| Secret | `STRATO_SFTP_USER` | SFTP user |
+| Secret | `STRATO_SFTP_PASSWORD` | its password |
+| Variable (optional) | `STRATO_SFTP_DIR` | target folder; leave it out when the SFTP user only sees its own folder (`/web`), as set up now |
+
+Safety: the upload only goes into an empty folder or one it filled before (marker file `.therapie-n25-deploy`),
+so a wrong folder setting can never delete the other folders on the web space. Files that no longer exist in
+the build are removed from the target folder.
+
+`public/.htaccess` (Apache): `therapie-n25.de` → `www.`, the "page not found" page, browser caching and security
+headers. HTTPS itself: "SSL erzwingen" in the STRATO login.
+
+Manual alternative: `npm run build`, then upload the **contents** of `dist/` (including `.htaccess`) into `/web`
+with FileZilla.
 
 ## Preview on GitHub Pages
 
@@ -26,11 +43,6 @@ Every push to `main` builds the site and publishes it via `.github/workflows/dep
 
 1. Repo → Settings → Pages → Build and deployment → Source: **GitHub Actions** (one-time).
 2. Preview: https://k-it-ai.github.io/therapie-n25/ (marked `noindex`, so Google ignores it).
-
-To serve the real domain from GitHub instead of STRATO later: enter `www.therapie-n25.de` under
-Settings → Pages → Custom domain and point the domain's DNS at GitHub (STRATO DNS settings: CNAME `www` →
-`k-it-ai.github.io`). The workflow detects the domain automatically: links drop the `/therapie-n25` prefix and
-`noindex` is removed.
 
 ## Where to change things
 

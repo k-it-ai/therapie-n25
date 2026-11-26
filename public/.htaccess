@@ -1,0 +1,27 @@
+# Web server settings for the live site on STRATO (Apache). GitHub Pages ignores this file.
+# HTTPS itself is switched on in the STRATO login ("SSL erzwingen").
+
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # therapie-n25.de -> www.therapie-n25.de (other subdomains, e.g. a test address, stay as they are)
+  RewriteCond %{HTTP_HOST} ^therapie-n25\.de$ [NC]
+  RewriteRule ^ https://www.therapie-n25.de%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+  # Files in /_astro/ get a new name whenever they change, so browsers may keep them for a year.
+  <If "%{REQUEST_URI} =~ m#^/_astro/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+  # Pages are always checked for a newer version.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

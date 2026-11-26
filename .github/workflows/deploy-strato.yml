@@ -1,0 +1,41 @@
+# Publishes the live site (www.therapie-n25.de) to the STRATO web space via SFTP.
+# Runs only when started by hand: GitHub → Actions → "Deploy live site to STRATO" → Run workflow.
+# Needs: secrets STRATO_SFTP_HOST, STRATO_SFTP_USER, STRATO_SFTP_PASSWORD;
+#        optional variable STRATO_SFTP_DIR (folder on the server; default "/" = the SFTP user's own folder).
+name: Deploy live site to STRATO
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: strato
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Without preview settings the build targets https://www.therapie-n25.de and is visible to search engines.
+      - run: npm run build
+      - name: Check the build
+        run: |
+          test -f dist/index.html && test -f dist/404.html && test -f dist/.htaccess
+          ! grep -q 'name="robots" content="noindex' dist/index.html
+          grep -q 'https://www.therapie-n25.de/' dist/sitemap.xml
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+      - name: Upload via SFTP
+        env:
+          SFTP_HOST: ${{ secrets.STRATO_SFTP_HOST }}
+          SFTP_USER: ${{ secrets.STRATO_SFTP_USER }}
+          LFTP_PASSWORD: ${{ secrets.STRATO_SFTP_PASSWORD }}
+          SFTP_DIR: ${{ vars.STRATO_SFTP_DIR }}
+        run: scripts/deploy-sftp.sh
