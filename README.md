@@ -13,10 +13,10 @@ npm run dev        # http://localhost:4321
 ## Live site on STRATO
 
 The live site runs on the STRATO web space in the folder `/web` (the domain points there in the STRATO login).
-Every push to `main` uploads it automatically (the same moment the preview updates); it can also be started
-by hand: **GitHub → Actions → "Deploy live site to STRATO" → Run workflow.**
+Every push to `main` builds the site and uploads it automatically (`.github/workflows/deploy.yml`, about 3 minutes).
+Test address before the switch: http://dev.therapie-n25.de (points to `/web`, hidden from search engines).
 
-The workflow (`.github/workflows/deploy-strato.yml`) builds the site for `https://www.therapie-n25.de` and uploads
+The workflow builds the site for `https://www.therapie-n25.de` and uploads
 it with `scripts/deploy-sftp.sh`. It needs, under Settings → Secrets and variables → Actions:
 
 | Kind | Name | Value |
@@ -35,13 +35,6 @@ headers. HTTPS itself: "SSL erzwingen" in the STRATO login.
 
 Manual alternative: `npm run build`, then upload the **contents** of `dist/` (including `.htaccess`) into `/web`
 with FileZilla.
-
-## Preview on GitHub Pages
-
-Every push to `main` builds the site and publishes it via `.github/workflows/deploy.yml`.
-
-1. Repo → Settings → Pages → Build and deployment → Source: **GitHub Actions** (one-time).
-2. Preview: https://k-it-ai.github.io/therapie-n25/ (marked `noindex`, so Google ignores it).
 
 ## Where to change things
 

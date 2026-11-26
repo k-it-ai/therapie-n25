@@ -17,9 +17,7 @@ interface Props {
   noindex?: boolean;
 }
 
-const { lang, title, description, home = false, alternates, noindex: noindexProp = false } = Astro.props;
-// The GitHub Pages preview must not compete with the real site in search results.
-const noindex = noindexProp || import.meta.env.PUBLIC_NOINDEX === 'true';
+const { lang, title, description, home = false, alternates, noindex = false } = Astro.props;
 const t = content[lang];
 const site = Astro.site!;
 const canonical = new URL(Astro.url.pathname, site).href;

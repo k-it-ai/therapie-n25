@@ -1,9 +1,7 @@
-# On every push to main: 1) preview on GitHub Pages, 2) then the live site on STRATO.
-# Preview: https://k-it-ai.github.io/therapie-n25/ (hidden from search engines).
-#   Requires: Settings → Pages → Build and deployment → Source: "GitHub Actions".
-# Live: www.therapie-n25.de, uploaded via SFTP into the STRATO web space (only after the preview succeeded).
-#   Requires: secrets STRATO_SFTP_HOST, STRATO_SFTP_USER, STRATO_SFTP_PASSWORD;
-#   optional variable STRATO_SFTP_DIR (default "/" = the SFTP user's own folder).
+# On every push to main: build the site and upload it to the STRATO web space via SFTP.
+# Requires: secrets STRATO_SFTP_HOST, STRATO_SFTP_USER, STRATO_SFTP_PASSWORD;
+#   optional variable STRATO_SFTP_DIR (default "/" = the SFTP user's own folder, here /web).
+# Test address: dev.therapie-n25.de (points to /web; hidden from search engines via .htaccess).
 name: Deploy
 
 on:
@@ -12,8 +10,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 # never cancel a running upload; a newer push waits and then deploys
 concurrency:
@@ -21,38 +17,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  preview-build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-      - id: pages
-        uses: actions/configure-pages@v5
-      - run: npm ci
-      - run: npm run build
-        env:
-          SITE_URL: ${{ steps.pages.outputs.origin }}
-          BASE_PATH: ${{ steps.pages.outputs.base_path }}
-          PUBLIC_NOINDEX: ${{ endsWith(steps.pages.outputs.host, 'github.io') }}
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: dist
-
-  preview:
-    needs: preview-build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
-
-  live:
-    needs: preview
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -61,7 +26,6 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # Without preview settings the build targets https://www.therapie-n25.de and is visible to search engines.
       - run: npm run build
       - name: Check the build
         run: |
