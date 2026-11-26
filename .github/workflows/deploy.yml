@@ -1,25 +1,27 @@
-# Builds the Astro site and publishes it on GitHub Pages.
-# Requires: Settings → Pages → Build and deployment → Source: "GitHub Actions".
-# Without a custom domain the site is at https://k-it-ai.github.io/therapie-n25/ (hidden from search engines).
-# Once a custom domain is set in Settings → Pages, the next run builds for that domain automatically.
-name: Deploy preview to GitHub Pages
+# On every push to main: 1) preview on GitHub Pages, 2) then the live site on STRATO.
+# Preview: https://k-it-ai.github.io/therapie-n25/ (hidden from search engines).
+#   Requires: Settings → Pages → Build and deployment → Source: "GitHub Actions".
+# Live: www.therapie-n25.de, uploaded via SFTP into the STRATO web space (only after the preview succeeded).
+#   Requires: secrets STRATO_SFTP_HOST, STRATO_SFTP_USER, STRATO_SFTP_PASSWORD;
+#   optional variable STRATO_SFTP_DIR (default "/" = the SFTP user's own folder).
+name: Deploy
 
 on:
   push:
     branches: [main]
-  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# never cancel a running upload; a newer push waits and then deploys
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: deploy
+  cancel-in-progress: false
 
 jobs:
-  build:
+  preview-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -39,8 +41,8 @@ jobs:
         with:
           path: dist
 
-  deploy:
-    needs: build
+  preview:
+    needs: preview-build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -48,3 +50,29 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  live:
+    needs: preview
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Without preview settings the build targets https://www.therapie-n25.de and is visible to search engines.
+      - run: npm run build
+      - name: Check the build
+        run: |
+          test -f dist/index.html && test -f dist/404.html && test -f dist/.htaccess
+          ! grep -q 'name="robots" content="noindex' dist/index.html
+          grep -q 'https://www.therapie-n25.de/' dist/sitemap.xml
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+      - name: Upload to STRATO via SFTP
+        env:
+          SFTP_HOST: ${{ secrets.STRATO_SFTP_HOST }}
+          SFTP_USER: ${{ secrets.STRATO_SFTP_USER }}
+          LFTP_PASSWORD: ${{ secrets.STRATO_SFTP_PASSWORD }}
+          SFTP_DIR: ${{ vars.STRATO_SFTP_DIR }}
+        run: scripts/deploy-sftp.sh
