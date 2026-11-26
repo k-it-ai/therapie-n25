@@ -13,9 +13,8 @@ npm run dev        # http://localhost:4321
 ## Live site on STRATO
 
 The live site runs on the STRATO web space in the folder `/web` (the domain points there in the STRATO login).
-It is published by hand from GitHub:
-
-**GitHub → Actions → "Deploy live site to STRATO" → Run workflow.**
+Every push to `main` uploads it automatically (the same moment the preview updates); it can also be started
+by hand: **GitHub → Actions → "Deploy live site to STRATO" → Run workflow.**
 
 The workflow (`.github/workflows/deploy-strato.yml`) builds the site for `https://www.therapie-n25.de` and uploads
 it with `scripts/deploy-sftp.sh`. It needs, under Settings → Secrets and variables → Actions:

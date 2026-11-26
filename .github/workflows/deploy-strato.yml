@@ -1,10 +1,12 @@
 # Publishes the live site (www.therapie-n25.de) to the STRATO web space via SFTP.
-# Runs only when started by hand: GitHub → Actions → "Deploy live site to STRATO" → Run workflow.
+# Runs on every push to main (like the preview) and by hand: Actions → "Deploy live site to STRATO" → Run workflow.
 # Needs: secrets STRATO_SFTP_HOST, STRATO_SFTP_USER, STRATO_SFTP_PASSWORD;
 #        optional variable STRATO_SFTP_DIR (folder on the server; default "/" = the SFTP user's own folder).
 name: Deploy live site to STRATO
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
