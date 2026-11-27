@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Upload dist/ to the STRATO web space via SFTP (used by the "live" job in .github/workflows/deploy.yml).
+# Upload dist/ to the STRATO web space via SFTP (used by .github/workflows/deploy.yml).
 # Env: SFTP_HOST, SFTP_USER, LFTP_PASSWORD, SFTP_DIR (folder on the server, "/" = the SFTP user's home).
 # Safety: only syncs into an empty folder or one this script filled before (marker file), so a wrong
 # SFTP_DIR can never wipe other folders on the web space.

@@ -53,10 +53,9 @@ with FileZilla.
 
 ### Location map
 `src/assets/map.svg` is drawn from OpenStreetMap data by `scripts/build-map.py` (see the comment at the top
-of the script for the two commands). The credit "© OpenStreetMap-Mitwirkende" next to the map is required by
+of the script for the two commands). The credit "© OpenStreetMap" on the map (linked to openstreetmap.org/copyright) is required by
 the OpenStreetMap licence (ODbL).
 
 ## Notes
-- Fonts are self-hosted (no Google Fonts request).
-- No third-party requests: the map is a static image, fonts are self-hosted.
+- No third-party requests and no cookies: fonts are self-hosted, the map is a static image.
 - "Route planen" opens the default navigation app on iPhone/iPad (iOS 18.4+, `geo-navigation:` link) and Android (`geo:`), Apple Maps on Mac and Google Maps elsewhere; older iPhones/iPads and the in-app browsers of Instagram, Facebook, Messenger, LinkedIn and TikTok get a small Apple Maps / Google Maps menu (Android in-app browsers: Google Maps).
