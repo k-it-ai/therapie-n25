@@ -106,7 +106,7 @@ export const content = {
             'staatlich examinierter Physiotherapeut',
             'Manuelle Therapie',
             'Osteopathie für Erwachsene und Kinder (parietale, viscerale und craniosacrale Therapie)',
-            'CMD (Craniomandibuläre Dysfunktion, Störung der Kiefergelenksfunktion)',
+            'CMD (Craniomandibuläre Dysfunktion, Störungen der Kiefergelenksfunktion)',
             'AK-Kinesiologie – Dr. Garten, Jeff Farkas',
             'Klavitherapie – Dr. Barbasiewicz, Warschau',
             'Spiraldynamik',
@@ -224,7 +224,7 @@ export const content = {
           subtitle: 'für Patient*innen jeden Alters',
           photo: 'therapieraum-hell',
           intro: [
-            'Osteopathie ist ein ganzheitliches, naturheilkundlich medizinisches Konzept. Die osteopathische Medizin dient vorwiegend der Erkennung und Behandlung von Funktionsstörungen, die mit Bewegungseinschränkungen einhergehen.',
+            'Osteopathie ist ein ganzheitliches, naturheilkundlich-medizinisches Konzept. Die osteopathische Medizin dient vorwiegend der Erkennung und Behandlung von Funktionsstörungen, die mit Bewegungseinschränkungen einhergehen.',
             'Die Aufgabe der Osteopath*innen ist es, die Ursachen zu suchen und die Selbstheilungskräfte der Patient*innen zu aktivieren.',
           ],
           list: [],
@@ -269,7 +269,7 @@ export const content = {
           more: [
             'Der Atmung – dem intimsten Kontakt zur Außenwelt – wird besondere Bedeutung beigemessen. Jeder Bewegungsablauf wird mit der korrespondierenden Atembewegung synchronisiert und melodisch-rhythmisch ausgeführt. Dadurch steigert sich die Vitalität von Körper und Geist.',
             'Durch die rotierenden Bewegungen der Gelenke wird auch ein ausgewogenes Stützsystem für den Knochenapparat geschaffen. Die Körpermeridiane werden gezielt angesprochen, um die blockierten Energien zu befreien.',
-            'Die fließenden Bewegungen massieren die Organe und aktivieren die vitalen Prozesse im Organismus. Statt einzelner Muskeln werden ganze Ketten von zusammenhängenden Muskeln geschmeidig beansprucht – der Trainierende lernt, seinen Körper zu beherrschen und würdevoll gegen die Schwerkraft zu bewegen.',
+            'Die fließenden Bewegungen massieren die Organe und aktivieren die vitalen Prozesse im Organismus. Statt einzelner Muskeln werden ganze Ketten von zusammenhängenden Muskeln geschmeidig beansprucht – Trainierende lernen, ihren Körper zu beherrschen und würdevoll gegen die Schwerkraft zu bewegen.',
           ],
         },
       ],
@@ -543,7 +543,7 @@ export const content = {
           more: [
             'Diagnosis and therapy use specific osteopathic techniques that require precise knowledge of anatomy, physiology (the physical and biochemical functions of living beings), neurology, pathology and biomechanics (the functions and structures of the musculoskeletal system).',
             'Our body constantly coordinates all vital functions with one another. These include the involuntary work of our digestive tract, the flow of our body fluids (arterial, venous, lymphatic), rhythmic breathing and, not least, the movement of muscles and joints and the elasticity of connective tissue.',
-            'If the movement of individual structures is restricted, this affects their function and their relationship to neighbouring structures. The body does not always signal a functional disorder through pain or other symptoms. Because our organism is highly adaptable, a disorder can be compensated for quite some time – until a small wrong movement triggers acute pain.',
+            'If the movement of individual structures is restricted, this affects their function and their relationship to neighbouring structures. The body does not always signal a functional disorder through pain or other symptoms. Because our organism is highly adaptable, it can compensate for a disorder for quite some time – until a small wrong movement triggers acute pain.',
             'The key to success is giving equal weight to the three great pillars of osteopathy. Knowing the parietal (joints and skeletal muscles), visceral (all organs and connecting tissue) and craniosacral (skull and all connecting structures down to the tailbone) systems inside out, and “combining” them individually for each patient, is our daily challenge – one we gladly take on with patients of all ages.',
           ],
         },
